@@ -5,18 +5,18 @@
   <head>
     <meta charset="utf-8" />
     <title>volume_simulation.visualization package &#8212; MassAnalysis 0.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
+    <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+    <script src="static/jquery.js"></script>
+    <script src="static/underscore.js"></script>
+    <script src="static/doctools.js"></script>
+    <script src="static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="volume_simulation.systems.control_volumes package" href="volume_simulation.systems.control_volumes.html" />
    
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  <link rel="stylesheet" href="static/custom.css" type="text/css" />
   
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -42,11 +42,11 @@
 <p>concentration_visualization.py: To plot and show result of concentration calculation</p>
 <dl class="class">
 <dt id="volume_simulation.visualization.concentration_visualization.ConcentrationVisualization">
-<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.visualization.concentration_visualization.</code><code class="sig-name descname">ConcentrationVisualization</code><span class="sig-paren">(</span><em class="sig-param">path_of_results: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/volume_simulation/visualization/concentration_visualization.html#ConcentrationVisualization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.concentration_visualization.ConcentrationVisualization" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.visualization.concentration_visualization.</code><code class="sig-name descname">ConcentrationVisualization</code><span class="sig-paren">(</span><em class="sig-param">path_of_results: str</em><span class="sig-paren">)</span><a class="reference internal" href="modules/volume_simulation/visualization/concentration_visualization.html#ConcentrationVisualization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.concentration_visualization.ConcentrationVisualization" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#volume_simulation.visualization.visualization.Visualization" title="volume_simulation.visualization.visualization.Visualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">volume_simulation.visualization.visualization.Visualization</span></code></a></p>
 <dl class="method">
 <dt id="volume_simulation.visualization.concentration_visualization.ConcentrationVisualization.generate_graph">
-<code class="sig-name descname">generate_graph</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="_modules/volume_simulation/visualization/concentration_visualization.html#ConcentrationVisualization.generate_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.concentration_visualization.ConcentrationVisualization.generate_graph" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generate_graph</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="modules/volume_simulation/visualization/concentration_visualization.html#ConcentrationVisualization.generate_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.concentration_visualization.ConcentrationVisualization.generate_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Graph of next point of interest</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -72,7 +72,7 @@ Value: tuple with limits</p></li>
 
 <dl class="method">
 <dt id="volume_simulation.visualization.concentration_visualization.ConcentrationVisualization.initialize">
-<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/visualization/concentration_visualization.html#ConcentrationVisualization.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.concentration_visualization.ConcentrationVisualization.initialize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/visualization/concentration_visualization.html#ConcentrationVisualization.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.concentration_visualization.ConcentrationVisualization.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize data with all csv on path_of_results</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -86,12 +86,12 @@ Value: tuple with limits</p></li>
 <span class="target" id="module-volume_simulation.visualization.visualization"></span><p>visualization.py: Visualization abstract class</p>
 <dl class="class">
 <dt id="volume_simulation.visualization.visualization.Visualization">
-<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.visualization.visualization.</code><code class="sig-name descname">Visualization</code><span class="sig-paren">(</span><em class="sig-param">name: str</em>, <em class="sig-param">path_of_results: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/volume_simulation/visualization/visualization.html#Visualization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.visualization.Visualization" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.visualization.visualization.</code><code class="sig-name descname">Visualization</code><span class="sig-paren">(</span><em class="sig-param">name: str</em>, <em class="sig-param">path_of_results: str</em><span class="sig-paren">)</span><a class="reference internal" href="modules/volume_simulation/visualization/visualization.html#Visualization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.visualization.Visualization" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Visualization abstract class</p>
 <dl class="method">
 <dt id="volume_simulation.visualization.visualization.Visualization.define_points_of_interest">
-<code class="sig-name descname">define_points_of_interest</code><span class="sig-paren">(</span><em class="sig-param">*points_of_interest: [&lt;class 'str'&gt;]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/visualization/visualization.html#Visualization.define_points_of_interest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.visualization.Visualization.define_points_of_interest" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">define_points_of_interest</code><span class="sig-paren">(</span><em class="sig-param">*points_of_interest: [&lt;class 'str'&gt;]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/visualization/visualization.html#Visualization.define_points_of_interest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.visualization.Visualization.define_points_of_interest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define points of interest, delete not selected data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -105,7 +105,7 @@ Value: tuple with limits</p></li>
 
 <dl class="method">
 <dt id="volume_simulation.visualization.visualization.Visualization.generate_graph">
-<em class="property">abstract </em><code class="sig-name descname">generate_graph</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="_modules/volume_simulation/visualization/visualization.html#Visualization.generate_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.visualization.Visualization.generate_graph" title="Permalink to this definition">¶</a></dt>
+<em class="property">abstract </em><code class="sig-name descname">generate_graph</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="modules/volume_simulation/visualization/visualization.html#Visualization.generate_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.visualization.Visualization.generate_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate graph of next point of interest</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -116,7 +116,7 @@ Value: tuple with limits</p></li>
 
 <dl class="method">
 <dt id="volume_simulation.visualization.visualization.Visualization.initialize">
-<em class="property">abstract </em><code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/visualization/visualization.html#Visualization.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.visualization.Visualization.initialize" title="Permalink to this definition">¶</a></dt>
+<em class="property">abstract </em><code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/visualization/visualization.html#Visualization.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.visualization.Visualization.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -127,7 +127,7 @@ Value: tuple with limits</p></li>
 
 <dl class="method">
 <dt id="volume_simulation.visualization.visualization.Visualization.restart_figure">
-<code class="sig-name descname">restart_figure</code><span class="sig-paren">(</span><em class="sig-param">dim: (&lt;class 'int'&gt;</em>, <em class="sig-param">&lt;class 'int'&gt;) = None</em>, <em class="sig-param">fig_size: (&lt;class 'int'&gt;</em>, <em class="sig-param">&lt;class 'int'&gt;) = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/visualization/visualization.html#Visualization.restart_figure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.visualization.Visualization.restart_figure" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">restart_figure</code><span class="sig-paren">(</span><em class="sig-param">dim: (&lt;class 'int'&gt;</em>, <em class="sig-param">&lt;class 'int'&gt;) = None</em>, <em class="sig-param">fig_size: (&lt;class 'int'&gt;</em>, <em class="sig-param">&lt;class 'int'&gt;) = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/visualization/visualization.html#Visualization.restart_figure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.visualization.Visualization.restart_figure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Restart self.figure and self.axis</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -144,7 +144,7 @@ Value: tuple with limits</p></li>
 
 <dl class="method">
 <dt id="volume_simulation.visualization.visualization.Visualization.save_plot">
-<code class="sig-name descname">save_plot</code><span class="sig-paren">(</span><em class="sig-param">file_name: str = None</em>, <em class="sig-param">show: bool = False</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/visualization/visualization.html#Visualization.save_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.visualization.Visualization.save_plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">save_plot</code><span class="sig-paren">(</span><em class="sig-param">file_name: str = None</em>, <em class="sig-param">show: bool = False</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/visualization/visualization.html#Visualization.save_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.visualization.Visualization.save_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save figure to file_name</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -164,11 +164,11 @@ Value: tuple with limits</p></li>
 <span class="target" id="module-volume_simulation.visualization.volume_visualization"></span><p>volume_visualization.py: To plot and show result of volume calculation</p>
 <dl class="class">
 <dt id="volume_simulation.visualization.volume_visualization.VolumeVisualization">
-<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.visualization.volume_visualization.</code><code class="sig-name descname">VolumeVisualization</code><span class="sig-paren">(</span><em class="sig-param">path_of_results: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/volume_simulation/visualization/volume_visualization.html#VolumeVisualization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.volume_visualization.VolumeVisualization" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.visualization.volume_visualization.</code><code class="sig-name descname">VolumeVisualization</code><span class="sig-paren">(</span><em class="sig-param">path_of_results: str</em><span class="sig-paren">)</span><a class="reference internal" href="modules/volume_simulation/visualization/volume_visualization.html#VolumeVisualization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.volume_visualization.VolumeVisualization" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#volume_simulation.visualization.visualization.Visualization" title="volume_simulation.visualization.visualization.Visualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">volume_simulation.visualization.visualization.Visualization</span></code></a></p>
 <dl class="method">
 <dt id="volume_simulation.visualization.volume_visualization.VolumeVisualization.generate_graph">
-<code class="sig-name descname">generate_graph</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="_modules/volume_simulation/visualization/volume_visualization.html#VolumeVisualization.generate_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.volume_visualization.VolumeVisualization.generate_graph" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generate_graph</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="modules/volume_simulation/visualization/volume_visualization.html#VolumeVisualization.generate_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.volume_visualization.VolumeVisualization.generate_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Graph of next point of interest</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -192,7 +192,7 @@ Value: tuple with limits</p></li>
 
 <dl class="method">
 <dt id="volume_simulation.visualization.volume_visualization.VolumeVisualization.initialize">
-<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/visualization/volume_visualization.html#VolumeVisualization.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.volume_visualization.VolumeVisualization.initialize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/visualization/volume_visualization.html#VolumeVisualization.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.visualization.volume_visualization.VolumeVisualization.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize data with all csv on path_of_results</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>

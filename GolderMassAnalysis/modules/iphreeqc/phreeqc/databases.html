@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>iphreeqc.phreeqc.databases &#8212; MassAnalysis 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../../static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../static/documentation_options.js"></script>
+    <script src="../../../static/jquery.js"></script>
+    <script src="../../../static/underscore.js"></script>
+    <script src="../../../static/doctools.js"></script>
+    <script src="../../../static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for iphreeqc.phreeqc.databases</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;databases.py: Instance of database&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="DataBasePhreeqc"><a class="viewcode-back" href="../../../iphreeqc.phreeqc.html#iphreeqc.phreeqc.databases.DataBasePhreeqc">[docs]</a><span class="k">class</span> <span class="nc">DataBasePhreeqc</span><span class="p">:</span>
+
+    <span class="n">AMM</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">COLD_CHEM</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">CORE10</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">FREZCHEM</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">ISO</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">LLNL</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">MINTEQ</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">MINTEQ_V4</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="n">PHREEQC</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">PITZER</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="n">SIT</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">TIPPING_HURLEY</span> <span class="o">=</span> <span class="mi">11</span>
+    <span class="n">WATEQ4F</span> <span class="o">=</span> <span class="mi">12</span>
+
+    <span class="n">__available_databases</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;amm&quot;</span><span class="p">,</span> <span class="s2">&quot;ColdChem&quot;</span><span class="p">,</span> <span class="s2">&quot;core10&quot;</span><span class="p">,</span> <span class="s2">&quot;frezchem&quot;</span><span class="p">,</span> <span class="s2">&quot;iso&quot;</span><span class="p">,</span> <span class="s2">&quot;llnl&quot;</span><span class="p">,</span> <span class="s2">&quot;minteq&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;minteq.v4&quot;</span><span class="p">,</span> <span class="s2">&quot;phreeqc&quot;</span><span class="p">,</span> <span class="s2">&quot;pitzer&quot;</span><span class="p">,</span>  <span class="s2">&quot;sit&quot;</span><span class="p">,</span> <span class="s2">&quot;Tipping_Hurley&quot;</span><span class="p">,</span> <span class="s2">&quot;wateq4f&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="DataBasePhreeqc.path"><a class="viewcode-back" href="../../../iphreeqc.phreeqc.html#iphreeqc.phreeqc.databases.DataBasePhreeqc.path">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="n">database</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get path from DataBasePhreeqc extension</span>
+
+<span class="sd">        :param database: Database available</span>
+<span class="sd">        :return: Path to database</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PATH</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">,</span> <span class="s2">&quot;database&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.dat&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">DataBasePhreeqc</span><span class="o">.</span><span class="n">__available_databases</span><span class="p">[</span><span class="n">database</span><span class="p">]</span>
+        <span class="p">))</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">MassAnalysis</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../iphreeqc.html">iphreeqc package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../volume_simulation.html">volume_simulation package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Juan Saez Hidalgo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

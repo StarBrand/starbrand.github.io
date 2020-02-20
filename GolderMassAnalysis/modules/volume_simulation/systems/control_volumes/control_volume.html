@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>volume_simulation.systems.control_volumes.control_volume &#8212; MassAnalysis 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../../../static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../../" src="../../../../static/documentation_options.js"></script>
+    <script src="../../../../static/jquery.js"></script>
+    <script src="../../../../static/underscore.js"></script>
+    <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for volume_simulation.systems.control_volumes.control_volume</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;control_volume.py: Control Volume object&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">isnan</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">volume_simulation.systems.control_volumes</span> <span class="kn">import</span> <span class="n">Flow</span>
+<span class="kn">from</span> <span class="nn">volume_simulation</span> <span class="kn">import</span> <span class="n">Logger</span><span class="p">,</span> <span class="n">NullLogger</span>
+
+<span class="n">M3_L</span> <span class="o">=</span> <span class="mf">1e-3</span>
+<span class="n">SEC_DAY</span> <span class="o">=</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>
+
+
+<div class="viewcode-block" id="ControlVolume"><a class="viewcode-back" href="../../../../volume_simulation.systems.control_volumes.html#volume_simulation.systems.control_volumes.control_volume.ControlVolume">[docs]</a><span class="k">class</span> <span class="nc">ControlVolume</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A model of a control volume box for mass analysis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_volume</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">max_volume</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">min_volume</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">logger</span><span class="p">:</span> <span class="n">Logger</span> <span class="o">=</span> <span class="n">NullLogger</span><span class="p">()):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_volume</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_volume</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">max_volume</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max_volume</span> <span class="o">=</span> <span class="n">max_volume</span>
+        <span class="k">if</span> <span class="n">min_volume</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">min_volume</span> <span class="o">=</span> <span class="n">min_volume</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actual_time</span> <span class="o">=</span> <span class="o">-</span> <span class="mf">1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="n">init_volume</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev_volume</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculated_volumes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculated_volume</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">equilibrium_phases</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kinetic_phases</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">saturation_indexes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="ControlVolume.add_elements"><a class="viewcode-back" href="../../../../volume_simulation.systems.control_volumes.html#volume_simulation.systems.control_volumes.control_volume.ControlVolume.add_elements">[docs]</a>    <span class="k">def</span> <span class="nf">add_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add elements from a file</span>
+
+<span class="sd">        :param path: Path to file with elements and data</span>
+<span class="sd">        :return: None, alter self.elements</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_chemical_data</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ControlVolume.add_equilibrium_phases"><a class="viewcode-back" href="../../../../volume_simulation.systems.control_volumes.html#volume_simulation.systems.control_volumes.control_volume.ControlVolume.add_equilibrium_phases">[docs]</a>    <span class="k">def</span> <span class="nf">add_equilibrium_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add equilibrium phases from a file</span>
+
+<span class="sd">        :param path: Path to file with equilibrium phases and data</span>
+<span class="sd">        :return: None, alter self.equilibrium_phases</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">equilibrium_phases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_chemical_data</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;equilibrium_phase&quot;</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="ControlVolume.add_kinetic_phases"><a class="viewcode-back" href="../../../../volume_simulation.systems.control_volumes.html#volume_simulation.systems.control_volumes.control_volume.ControlVolume.add_kinetic_phases">[docs]</a>    <span class="k">def</span> <span class="nf">add_kinetic_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add kinetic phases from a file</span>
+
+<span class="sd">        :param path: Path to file with kinetic phases and data</span>
+<span class="sd">        :return: None, alter self.kinetic_phases</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kinetic_phases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_chemical_data</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;kinetic_phase&quot;</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_add_chemical_data</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (Protected) Generate chemical data from file</span>
+
+<span class="sd">        :param path: Path to file with chemical data</span>
+<span class="sd">        :param data_name: Name of data to import</span>
+<span class="sd">        :return: A panda Series with data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;parameter&quot;</span><span class="p">,</span> <span class="n">data_name</span><span class="p">])[</span><span class="n">data_name</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ControlVolume.add_flow"><a class="viewcode-back" href="../../../../volume_simulation.systems.control_volumes.html#volume_simulation.systems.control_volumes.control_volume.ControlVolume.add_flow">[docs]</a>    <span class="k">def</span> <span class="nf">add_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a_flow</span><span class="p">:</span> <span class="n">Flow</span><span class="p">,</span> <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a Flow to volume</span>
+
+<span class="sd">        :param a_flow: Flow accordingly</span>
+<span class="sd">        :param check: (Optional) whether or not check if flow corresponds to volume</span>
+<span class="sd">        :return: None, alter self.flows</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">check</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">a_flow</span><span class="o">.</span><span class="n">control_volume_1</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">a_flow</span><span class="o">.</span><span class="n">control_volume_2</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Inverting Flow&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Volume </span><span class="si">{}</span><span class="s2">: Flow inverted for this volume&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">))</span>
+                    <span class="n">new_flow</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">a_flow</span><span class="p">)</span>
+                    <span class="n">new_flow</span><span class="o">.</span><span class="n">invert</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_add_flow</span><span class="p">(</span><span class="n">new_flow</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
+                    <span class="k">return</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Wrong flow for this volume&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_flow</span><span class="p">(</span><span class="n">a_flow</span><span class="p">,</span> <span class="n">check</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+    <span class="k">def</span> <span class="nf">_add_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a_flow</span><span class="p">:</span> <span class="n">Flow</span><span class="p">,</span> <span class="n">check</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a Flow to volume, asserting is not registered</span>
+
+<span class="sd">        :param a_flow: Flow accordingly</span>
+<span class="sd">        :param check: (Optional) whether or not check if flow corresponds to volume</span>
+<span class="sd">        :return: None, alter self.flows</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">check</span><span class="p">:</span>
+            <span class="n">flows</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span> <span class="k">for</span> <span class="n">flow</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">flows</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">a_flow</span><span class="p">)</span> <span class="ow">in</span> <span class="n">flows</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Volume </span><span class="si">{}</span><span class="s2">: Flow already saved, updating&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">))</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="n">flows</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">a_flow</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">flows</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">a_flow</span>
+                <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a_flow</span><span class="p">)</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="ControlVolume.volume_balance"><a class="viewcode-back" href="../../../../volume_simulation.systems.control_volumes.html#volume_simulation.systems.control_volumes.control_volume.ControlVolume.volume_balance">[docs]</a>    <span class="k">def</span> <span class="nf">volume_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                       <span class="c1"># Optional</span>
+                       <span class="n">time_conversion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">SEC_DAY</span><span class="p">,</span>
+                       <span class="n">volume_conversion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">M3_L</span>
+                       <span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate volume balance</span>
+
+<span class="sd">        :param delta_time: Size of time window</span>
+<span class="sd">        :param time_conversion: (Optional) conversion of time, from seconds</span>
+<span class="sd">        :param volume_conversion: (Optional) conversion of volume, from liters</span>
+<span class="sd">        :return: Actual volume</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev_volume</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculated_volume</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume</span>
+        <span class="n">flow_in</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">flow_out</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">actual_time</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actual_time</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actual_time</span> <span class="o">+=</span> <span class="n">delta_time</span>
+        <span class="k">for</span> <span class="n">flow</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">flows</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">flow_value</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">get_volumes</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">actual_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">actual_time</span><span class="p">,</span> <span class="n">delta_time</span><span class="p">,</span> <span class="n">time_conversion</span><span class="p">,</span> <span class="n">volume_conversion</span>
+                <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">flow_value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">flow_out</span> <span class="o">-=</span> <span class="n">flow_value</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">flow_in</span> <span class="o">+=</span> <span class="n">flow_value</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">calculated_volume</span> <span class="o">+=</span> <span class="n">flow_value</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calculated_volume</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_volume</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volume</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_volume</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume</span><span class="p">,</span> <span class="n">flow_in</span><span class="p">,</span> <span class="n">flow_out</span></div>
+
+<div class="viewcode-block" id="ControlVolume.iterate_volume_balance"><a class="viewcode-back" href="../../../../volume_simulation.systems.control_volumes.html#volume_simulation.systems.control_volumes.control_volume.ControlVolume.iterate_volume_balance">[docs]</a>    <span class="k">def</span> <span class="nf">iterate_volume_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">delta_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                               <span class="c1"># Optional</span>
+                               <span class="n">time_conversion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">SEC_DAY</span><span class="p">,</span>
+                               <span class="n">volume_conversion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">M3_L</span>
+                               <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterate volume balance method from self.actual_time to self.actual_time + (steps * delta_time)</span>
+
+<span class="sd">        :param steps: Number of iterations</span>
+<span class="sd">        :param delta_time: Time window</span>
+<span class="sd">        :param time_conversion: (Optional) conversion of time, from seconds</span>
+<span class="sd">        :param volume_conversion: (Optional) conversion of volume, from liters</span>
+<span class="sd">        :return: A 2D numpy array:</span>
+<span class="sd">            1-dim: Volume of box, in and out</span>
+<span class="sd">            2-dim: Time (day)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">actual_time</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actual_time</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actual_time</span> <span class="o">+=</span> <span class="n">delta_time</span>
+        <span class="n">init_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">actual_time</span>
+        <span class="k">if</span> <span class="n">init_time</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">times</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;No more flows on file&quot;</span><span class="p">)</span>
+        <span class="n">end_time</span> <span class="o">=</span> <span class="n">init_time</span> <span class="o">+</span> <span class="p">((</span><span class="n">steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta_time</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">end_time</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">times</span><span class="p">):</span>
+            <span class="n">end_time</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">times</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actual_time</span> <span class="o">=</span> <span class="n">end_time</span>
+        <span class="n">flows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">flow</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">flows</span><span class="p">:</span>
+            <span class="n">flows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flow</span><span class="o">.</span><span class="n">get_volumes</span><span class="p">(</span><span class="n">init_time</span><span class="p">,</span>
+                                          <span class="n">end_time</span><span class="p">,</span>
+                                          <span class="n">delta_time</span><span class="p">,</span>
+                                          <span class="n">time_conversion</span><span class="p">,</span>
+                                          <span class="n">volume_conversion</span><span class="p">))</span>
+        <span class="n">flows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">flows</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="n">flows</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculated_volumes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">flows</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculated_volumes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">+</span> <span class="n">flows</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calculated_volumes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_volume</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_volume</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="n">flows</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">flows</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">output</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="n">flows</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">flows</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calculated_volumes</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">flows</span><span class="p">[:,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calculated_volumes</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_volume</span><span class="p">)</span>
+            <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_volume</span><span class="p">)</span>
+            <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="n">flows</span><span class="p">[:,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">flows</span><span class="p">[:,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">output</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="n">flows</span><span class="p">[:,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">flows</span><span class="p">[:,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev_volume</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculated_volume</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculated_volumes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="ControlVolume.calculate_mix_ratio"><a class="viewcode-back" href="../../../../volume_simulation.systems.control_volumes.html#volume_simulation.systems.control_volumes.control_volume.ControlVolume.calculate_mix_ratio">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_mix_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates inner mix ratio (Vt-1 / Vt)</span>
+<span class="sd">        :return: mix ratio</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prev_volume</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;There is no volume calculated yet&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev_volume</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculated_volume</span></div>
+
+<div class="viewcode-block" id="ControlVolume.add_saturation_index"><a class="viewcode-back" href="../../../../volume_simulation.systems.control_volumes.html#volume_simulation.systems.control_volumes.control_volume.ControlVolume.add_saturation_index">[docs]</a>    <span class="k">def</span> <span class="nf">add_saturation_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">saturation_index</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add saturation index to equilibrium phases</span>
+
+
+<span class="sd">        :param parameter: Parameter to have si (different from 0)</span>
+<span class="sd">        :param saturation_index: A valid SI</span>
+<span class="sd">        :return: None, alter self.saturation_indexes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">saturation_indexes</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">saturation_index</span>
+        <span class="k">return</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../index.html">MassAnalysis</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../iphreeqc.html">iphreeqc package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../volume_simulation.html">volume_simulation package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Juan Saez Hidalgo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

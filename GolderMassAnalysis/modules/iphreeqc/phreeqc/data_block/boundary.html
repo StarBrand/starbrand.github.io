@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>iphreeqc.phreeqc.data_block.boundary &#8212; MassAnalysis 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../../../static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../../" src="../../../../static/documentation_options.js"></script>
+    <script src="../../../../static/jquery.js"></script>
+    <script src="../../../../static/underscore.js"></script>
+    <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for iphreeqc.phreeqc.data_block.boundary</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;boundary.py: A NullObject of Mixture&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">iphreeqc.phreeqc.data_block</span> <span class="kn">import</span> <span class="n">Mixture</span>
+
+
+<div class="viewcode-block" id="Boundary"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.boundary.Boundary">[docs]</a><span class="k">class</span> <span class="nc">Boundary</span><span class="p">(</span><span class="n">Mixture</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Boundary, a chemical source, but without a mixture</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">identifier</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solution</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">equilibrium_phases</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kinetic_phases</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">saturation_indexes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solutions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Boundary.add_solution"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.boundary.Boundary.add_solution">[docs]</a>    <span class="k">def</span> <span class="nf">add_solution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">control_volume_2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a solution to the mix</span>
+
+<span class="sd">        :param identifier: Id of solution to add</span>
+<span class="sd">        :param control_volume_2: Name of control volume out</span>
+<span class="sd">        :return: None, alter self.solutions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Boundary.add_saturation_index"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.boundary.Boundary.add_saturation_index">[docs]</a>    <span class="k">def</span> <span class="nf">add_saturation_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">saturation_index</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add saturation index to equilibrium phases</span>
+
+<span class="sd">        :param parameter: Parameter to have si</span>
+<span class="sd">        :param saturation_index: A valid SI</span>
+<span class="sd">        :return: None, alter self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Boundary.add_equilibrium_phase"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.boundary.Boundary.add_equilibrium_phase">[docs]</a>    <span class="k">def</span> <span class="nf">add_equilibrium_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span> <span class="ow">or</span> <span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add equilibrium phase data</span>
+
+<span class="sd">        :param parameter: Name (or list of name) of equilibrium value to add</span>
+<span class="sd">        :return: None, alter self.equilibrium_phases</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Boundary.add_kinetic_phase"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.boundary.Boundary.add_kinetic_phase">[docs]</a>    <span class="k">def</span> <span class="nf">add_kinetic_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span> <span class="ow">or</span> <span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add kinetic phases data</span>
+
+<span class="sd">        :param parameter: Name (or list of name) of kinetic value to add</span>
+<span class="sd">        :return: None, alter self.kinetic_phases</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Boundary.parse"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.boundary.Boundary.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse mixture to add on input template</span>
+
+<span class="sd">        :param kwargs:</span>
+<span class="sd">            See below</span>
+<span class="sd">        :keyword data: Data to complete numerical values</span>
+<span class="sd">        :return: Text to add on template</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../index.html">MassAnalysis</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../iphreeqc.html">iphreeqc package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../volume_simulation.html">volume_simulation package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Juan Saez Hidalgo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

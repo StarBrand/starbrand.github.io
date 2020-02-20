@@ -5,19 +5,19 @@
   <head>
     <meta charset="utf-8" />
     <title>volume_simulation.engine package &#8212; MassAnalysis 0.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
+    <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+    <script src="static/jquery.js"></script>
+    <script src="static/underscore.js"></script>
+    <script src="static/doctools.js"></script>
+    <script src="static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="volume_simulation.systems package" href="volume_simulation.systems.html" />
     <link rel="prev" title="volume_simulation package" href="volume_simulation.html" />
    
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  <link rel="stylesheet" href="static/custom.css" type="text/css" />
   
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -43,12 +43,12 @@
 <p>basic_engine.py: A basic engine to simulate an hydraulic system</p>
 <dl class="class">
 <dt id="volume_simulation.engine.basic_engine.BasicEngine">
-<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.engine.basic_engine.</code><code class="sig-name descname">BasicEngine</code><span class="sig-paren">(</span><em class="sig-param">flows: str, init_values: str, variable_boundary_conditions: [&lt;class 'str'&gt;] = None, constant_boundary_conditions: [&lt;class 'str'&gt;] = None, constant_boundary_mapper: dict = None, *control_volumes: [&lt;class 'str'&gt;], log_on_file: str = None, path: str = 'C:\Users\jmsaez\Dropbox\Golder\doc', logger: volume_simulation.logger.Logger = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/volume_simulation/engine/basic_engine.html#BasicEngine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.basic_engine.BasicEngine" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.engine.basic_engine.</code><code class="sig-name descname">BasicEngine</code><span class="sig-paren">(</span><em class="sig-param">flows: str, init_values: str, variable_boundary_conditions: [&lt;class 'str'&gt;] = None, constant_boundary_conditions: [&lt;class 'str'&gt;] = None, constant_boundary_mapper: dict = None, *control_volumes: [&lt;class 'str'&gt;], log_on_file: str = None, path: str = 'C:\Users\jmsaez\Dropbox\Golder\doc', logger: volume_simulation.logger.Logger = None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/volume_simulation/engine/basic_engine.html#BasicEngine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.basic_engine.BasicEngine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#volume_simulation.engine.engine.Engine" title="volume_simulation.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">volume_simulation.engine.engine.Engine</span></code></a></p>
 <p>Basic Engine simulation</p>
 <dl class="method">
 <dt id="volume_simulation.engine.basic_engine.BasicEngine.run_simulation">
-<code class="sig-name descname">run_simulation</code><span class="sig-paren">(</span><em class="sig-param">iterations: int</em>, <em class="sig-param">delta_time: float</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/engine/basic_engine.html#BasicEngine.run_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.basic_engine.BasicEngine.run_simulation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">run_simulation</code><span class="sig-paren">(</span><em class="sig-param">iterations: int</em>, <em class="sig-param">delta_time: float</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/engine/basic_engine.html#BasicEngine.run_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.basic_engine.BasicEngine.run_simulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run simulation, put output in a csv file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -71,7 +71,7 @@
 <span class="target" id="module-volume_simulation.engine.concentration_engine"></span><p>engine.py: Simulator of a system abstract class</p>
 <dl class="class">
 <dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine">
-<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.engine.concentration_engine.</code><code class="sig-name descname">ConcentrationEngine</code><span class="sig-paren">(</span><em class="sig-param">path_to_data: str, variable_boundary_conditions: [&lt;class 'str'&gt;] = None, constant_boundary_conditions: [&lt;class 'str'&gt;] = None, constant_boundary_mapper: dict = None, *control_volumes: [&lt;class 'str'&gt;], **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.engine.concentration_engine.</code><code class="sig-name descname">ConcentrationEngine</code><span class="sig-paren">(</span><em class="sig-param">path_to_data: str, variable_boundary_conditions: [&lt;class 'str'&gt;] = None, constant_boundary_conditions: [&lt;class 'str'&gt;] = None, constant_boundary_mapper: dict = None, *control_volumes: [&lt;class 'str'&gt;], **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#volume_simulation.engine.engine.Engine" title="volume_simulation.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">volume_simulation.engine.engine.Engine</span></code></a></p>
 <dl class="attribute">
 <dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine.MAXIMUM_LINES">
@@ -81,7 +81,7 @@
 
 <dl class="method">
 <dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine.add_additional_info">
-<code class="sig-name descname">add_additional_info</code><span class="sig-paren">(</span><em class="sig-param">information: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_additional_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_additional_info" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_additional_info</code><span class="sig-paren">(</span><em class="sig-param">information: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_additional_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_additional_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add additional info to all (or a list of) control volumes elements</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -97,7 +97,7 @@ value: Value to add</p>
 
 <dl class="method">
 <dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine.add_database">
-<code class="sig-name descname">add_database</code><span class="sig-paren">(</span><em class="sig-param">*database: [&lt;class 'int'&gt;]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_database" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_database</code><span class="sig-paren">(</span><em class="sig-param">*database: [&lt;class 'int'&gt;]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_database" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add database to IPhreeqc</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -111,7 +111,7 @@ value: Value to add</p>
 
 <dl class="method">
 <dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine.add_header">
-<code class="sig-name descname">add_header</code><span class="sig-paren">(</span><em class="sig-param">header: str</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_header" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_header</code><span class="sig-paren">(</span><em class="sig-param">header: str</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add header to template</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -130,7 +130,7 @@ value: Value to add</p>
 
 <dl class="method">
 <dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine.add_output">
-<code class="sig-name descname">add_output</code><span class="sig-paren">(</span><em class="sig-param">information: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_output" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_output</code><span class="sig-paren">(</span><em class="sig-param">information: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add output to all volumes (or particular one(s))</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -146,7 +146,7 @@ value: Value to add</p>
 
 <dl class="method">
 <dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine.add_saturation_index">
-<code class="sig-name descname">add_saturation_index</code><span class="sig-paren">(</span><em class="sig-param">information: dict, *control_volumes: [&lt;class 'str'&gt;]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_saturation_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_saturation_index" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_saturation_index</code><span class="sig-paren">(</span><em class="sig-param">information: dict, *control_volumes: [&lt;class 'str'&gt;]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_saturation_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_saturation_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add saturation index to equilibrium phases</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -165,8 +165,8 @@ Index different from zero</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine.add_static_elements">
-<code class="sig-name descname">add_static_elements</code><span class="sig-paren">(</span><em class="sig-param">information: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_static_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_static_elements" title="Permalink to this definition">¶</a></dt>
+<dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine.addstatic_elements">
+<code class="sig-name descname">addstatic_elements</code><span class="sig-paren">(</span><em class="sig-param">information: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.addstatic_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.addstatic_elements" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add element to all (or a list of) control volumes that are not going to
 change over time</p>
 <dl class="field-list simple">
@@ -183,7 +183,7 @@ value: Value to add</p>
 
 <dl class="method">
 <dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine.add_surface">
-<code class="sig-name descname">add_surface</code><span class="sig-paren">(</span><em class="sig-param">data: dict = None</em>, <em class="sig-param">to_all: bool = False</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_surface" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_surface</code><span class="sig-paren">(</span><em class="sig-param">data: dict = None</em>, <em class="sig-param">to_all: bool = False</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.add_surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.add_surface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add surface to input template from data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -207,7 +207,7 @@ value: data as described before</p>
 
 <dl class="method">
 <dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine.element_as">
-<code class="sig-name descname">element_as</code><span class="sig-paren">(</span><em class="sig-param">information: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.element_as"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.element_as" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">element_as</code><span class="sig-paren">(</span><em class="sig-param">information: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.element_as"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.element_as" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add element as info to all (or a list of) control volumes elements</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -223,7 +223,7 @@ value: Synonym</p>
 
 <dl class="method">
 <dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine.run_simulation">
-<code class="sig-name descname">run_simulation</code><span class="sig-paren">(</span><em class="sig-param">iterations: int</em>, <em class="sig-param">delta_time: float</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.run_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.run_simulation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">run_simulation</code><span class="sig-paren">(</span><em class="sig-param">iterations: int</em>, <em class="sig-param">delta_time: float</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.run_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.run_simulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run simulation, put output in a csv file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -244,7 +244,7 @@ value: Synonym</p>
 
 <dl class="method">
 <dt id="volume_simulation.engine.concentration_engine.ConcentrationEngine.step">
-<code class="sig-name descname">step</code><span class="sig-paren">(</span><em class="sig-param">delta: float</em>, <em class="sig-param">save_template: str</em>, <em class="sig-param">updated_data: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.step" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">step</code><span class="sig-paren">(</span><em class="sig-param">delta: float</em>, <em class="sig-param">save_template: str</em>, <em class="sig-param">updated_data: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="modules/volume_simulation/engine/concentration_engine.html#ConcentrationEngine.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.concentration_engine.ConcentrationEngine.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Step on iteration</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -265,12 +265,12 @@ value: Synonym</p>
 <span class="target" id="module-volume_simulation.engine.engine"></span><p>engine.py: Simulator of a system abstract class</p>
 <dl class="class">
 <dt id="volume_simulation.engine.engine.Engine">
-<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.engine.engine.</code><code class="sig-name descname">Engine</code><span class="sig-paren">(</span><em class="sig-param">variable_boundary_conditions: [&lt;class 'str'&gt;] = None</em>, <em class="sig-param">constant_boundary_conditions: [&lt;class 'str'&gt;] = None</em>, <em class="sig-param">constant_boundary_mapper: dict = None</em>, <em class="sig-param">logger: volume_simulation.logger.Logger = None</em>, <em class="sig-param">log_on_file: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/volume_simulation/engine/engine.html#Engine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.engine.Engine" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.engine.engine.</code><code class="sig-name descname">Engine</code><span class="sig-paren">(</span><em class="sig-param">variable_boundary_conditions: [&lt;class 'str'&gt;] = None</em>, <em class="sig-param">constant_boundary_conditions: [&lt;class 'str'&gt;] = None</em>, <em class="sig-param">constant_boundary_mapper: dict = None</em>, <em class="sig-param">logger: volume_simulation.logger.Logger = None</em>, <em class="sig-param">log_on_file: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="modules/volume_simulation/engine/engine.html#Engine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.engine.Engine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Engine, runs a simulation of a system</p>
 <dl class="method">
 <dt id="volume_simulation.engine.engine.Engine.run_simulation">
-<em class="property">abstract </em><code class="sig-name descname">run_simulation</code><span class="sig-paren">(</span><em class="sig-param">iterations: int</em>, <em class="sig-param">delta_time: float</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="_modules/volume_simulation/engine/engine.html#Engine.run_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.engine.Engine.run_simulation" title="Permalink to this definition">¶</a></dt>
+<em class="property">abstract </em><code class="sig-name descname">run_simulation</code><span class="sig-paren">(</span><em class="sig-param">iterations: int</em>, <em class="sig-param">delta_time: float</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="modules/volume_simulation/engine/engine.html#Engine.run_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.engine.Engine.run_simulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run simulation, put output in a csv file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -288,7 +288,7 @@ value: Synonym</p>
 
 <dl class="method">
 <dt id="volume_simulation.engine.engine.Engine.show_time">
-<em class="property">static </em><code class="sig-name descname">show_time</code><span class="sig-paren">(</span><em class="sig-param">end: float</em>, <em class="sig-param">start: float</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/volume_simulation/engine/engine.html#Engine.show_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.engine.Engine.show_time" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">show_time</code><span class="sig-paren">(</span><em class="sig-param">end: float</em>, <em class="sig-param">start: float</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="modules/volume_simulation/engine/engine.html#Engine.show_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.engine.Engine.show_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show time formatted for logging</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -308,7 +308,7 @@ value: Synonym</p>
 <span class="target" id="module-volume_simulation.engine.file_locations"></span><p>file_locations.py: Default location of initial data</p>
 <dl class="function">
 <dt id="volume_simulation.engine.file_locations.mapper_boxes">
-<code class="sig-prename descclassname">volume_simulation.engine.file_locations.</code><code class="sig-name descname">mapper_boxes</code><span class="sig-paren">(</span><em class="sig-param">volumes_detected: [&lt;class 'str'&gt;], variable_boundary: [&lt;class 'str'&gt;], constant_boundary: dict</em><span class="sig-paren">)</span> &#x2192; dict<a class="reference internal" href="_modules/volume_simulation/engine/file_locations.html#mapper_boxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.file_locations.mapper_boxes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">volume_simulation.engine.file_locations.</code><code class="sig-name descname">mapper_boxes</code><span class="sig-paren">(</span><em class="sig-param">volumes_detected: [&lt;class 'str'&gt;], variable_boundary: [&lt;class 'str'&gt;], constant_boundary: dict</em><span class="sig-paren">)</span> &#x2192; dict<a class="reference internal" href="modules/volume_simulation/engine/file_locations.html#mapper_boxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.engine.file_locations.mapper_boxes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates default location of initial data for all boxes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

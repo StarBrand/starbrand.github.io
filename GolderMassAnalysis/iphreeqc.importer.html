@@ -5,19 +5,19 @@
   <head>
     <meta charset="utf-8" />
     <title>iphreeqc.importer package &#8212; MassAnalysis 0.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
+    <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+    <script src="static/jquery.js"></script>
+    <script src="static/underscore.js"></script>
+    <script src="static/doctools.js"></script>
+    <script src="static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="iphreeqc.phreeqc package" href="iphreeqc.phreeqc.html" />
     <link rel="prev" title="iphreeqc package" href="iphreeqc.html" />
    
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  <link rel="stylesheet" href="static/custom.css" type="text/css" />
   
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -45,12 +45,12 @@ simulated on data blocks of a template input</p>
 and generate a InputTemplate object</p>
 <dl class="class">
 <dt id="iphreeqc.importer.system_importer.SystemImporter">
-<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.importer.system_importer.</code><code class="sig-name descname">SystemImporter</code><span class="sig-paren">(</span><em class="sig-param">system: volume_simulation.systems.system.System</em>, <em class="sig-param">logger: volume_simulation.logger.Logger = &lt;volume_simulation.logger.NullLogger object&gt;</em>, <em class="sig-param">_toy: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.importer.system_importer.</code><code class="sig-name descname">SystemImporter</code><span class="sig-paren">(</span><em class="sig-param">system: volume_simulation.systems.system.System</em>, <em class="sig-param">logger: volume_simulation.logger.Logger = &lt;volume_simulation.logger.NullLogger object&gt;</em>, <em class="sig-param">_toy: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Generate a input template from a System instance</p>
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.add_additional_info">
-<code class="sig-name descname">add_additional_info</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em>, <em class="sig-param">value: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.add_additional_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_additional_info" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_additional_info</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em>, <em class="sig-param">value: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.add_additional_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_additional_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add additional info to all (or a list of) control volumes elements</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -67,7 +67,7 @@ and generate a InputTemplate object</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.add_elements">
-<code class="sig-name descname">add_elements</code><span class="sig-paren">(</span><em class="sig-param">path: str</em>, <em class="sig-param">mapper: Optional[dict] = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.add_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_elements" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_elements</code><span class="sig-paren">(</span><em class="sig-param">path: str</em>, <em class="sig-param">mapper: Optional[dict] = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.add_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_elements" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add elements for folder (in path). Search for file with name
 on mapper</p>
 <dl class="field-list simple">
@@ -85,7 +85,7 @@ on mapper</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.add_equilibrium_phases">
-<code class="sig-name descname">add_equilibrium_phases</code><span class="sig-paren">(</span><em class="sig-param">path: str</em>, <em class="sig-param">mapper: Optional[dict] = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.add_equilibrium_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_equilibrium_phases" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_equilibrium_phases</code><span class="sig-paren">(</span><em class="sig-param">path: str</em>, <em class="sig-param">mapper: Optional[dict] = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.add_equilibrium_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_equilibrium_phases" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add equilibrium phases for file (in path)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -102,7 +102,7 @@ on mapper</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.add_header">
-<code class="sig-name descname">add_header</code><span class="sig-paren">(</span><em class="sig-param">header: iphreeqc.phreeqc.data_block.header.Header</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.add_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_header" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_header</code><span class="sig-paren">(</span><em class="sig-param">header: iphreeqc.phreeqc.data_block.header.Header</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.add_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a header to template</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -116,7 +116,7 @@ on mapper</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.add_kinetic_phases">
-<code class="sig-name descname">add_kinetic_phases</code><span class="sig-paren">(</span><em class="sig-param">path: str</em>, <em class="sig-param">mapper: Optional[dict] = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.add_kinetic_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_kinetic_phases" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_kinetic_phases</code><span class="sig-paren">(</span><em class="sig-param">path: str</em>, <em class="sig-param">mapper: Optional[dict] = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.add_kinetic_phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_kinetic_phases" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add kinetic phases for file (in path)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -133,7 +133,7 @@ on mapper</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.add_output">
-<code class="sig-name descname">add_output</code><span class="sig-paren">(</span><em class="sig-param">output: str</em>, <em class="sig-param">value: object</em>, <em class="sig-param">*control_volumes</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.add_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_output" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_output</code><span class="sig-paren">(</span><em class="sig-param">output: str</em>, <em class="sig-param">value: object</em>, <em class="sig-param">*control_volumes</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.add_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add output to all volumes (or particular one(s))</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -151,7 +151,7 @@ on mapper</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.add_saturation_index">
-<code class="sig-name descname">add_saturation_index</code><span class="sig-paren">(</span><em class="sig-param">parameter: str, saturation_index: float, *control_volumes: [str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.add_saturation_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_saturation_index" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_saturation_index</code><span class="sig-paren">(</span><em class="sig-param">parameter: str, saturation_index: float, *control_volumes: [str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.add_saturation_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_saturation_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add saturation index to equilibrium phases</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -169,8 +169,8 @@ Index different from zero</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="iphreeqc.importer.system_importer.SystemImporter.add_static_elements">
-<code class="sig-name descname">add_static_elements</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em>, <em class="sig-param">value: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.add_static_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_static_elements" title="Permalink to this definition">¶</a></dt>
+<dt id="iphreeqc.importer.system_importer.SystemImporter.addstatic_elements">
+<code class="sig-name descname">addstatic_elements</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em>, <em class="sig-param">value: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.addstatic_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.addstatic_elements" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add element to all (or a list of) control volumes that are not going to
 change over time</p>
 <dl class="field-list simple">
@@ -181,14 +181,14 @@ change over time</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None, alter self._static_elements</p>
+<dd class="field-even"><p>None, alter self.static_elements</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.add_surface_from_data">
-<code class="sig-name descname">add_surface_from_data</code><span class="sig-paren">(</span><em class="sig-param">data: Optional[dict] = None</em>, <em class="sig-param">to_all: bool = False</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.add_surface_from_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_surface_from_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_surface_from_data</code><span class="sig-paren">(</span><em class="sig-param">data: Optional[dict] = None</em>, <em class="sig-param">to_all: bool = False</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.add_surface_from_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_surface_from_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add surface to input template from data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -212,7 +212,7 @@ value: data as described before</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.add_variable_condition">
-<code class="sig-name descname">add_variable_condition</code><span class="sig-paren">(</span><em class="sig-param">path: str</em>, <em class="sig-param">mapper: Optional[dict] = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.add_variable_condition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_variable_condition" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_variable_condition</code><span class="sig-paren">(</span><em class="sig-param">path: str</em>, <em class="sig-param">mapper: Optional[dict] = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.add_variable_condition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.add_variable_condition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add variable chemical attributes with a pandas DataFrame
 Chemical conditions over time are taken from file</p>
 <dl class="field-list simple">
@@ -230,7 +230,7 @@ Chemical conditions over time are taken from file</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.element_as">
-<code class="sig-name descname">element_as</code><span class="sig-paren">(</span><em class="sig-param">element: str</em>, <em class="sig-param">synonym: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.element_as"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.element_as" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">element_as</code><span class="sig-paren">(</span><em class="sig-param">element: str</em>, <em class="sig-param">synonym: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.element_as"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.element_as" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add “as &lt;value&gt;” to all solutions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -247,7 +247,7 @@ Chemical conditions over time are taken from file</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.generate">
-<code class="sig-name descname">generate</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.generate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generate</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.generate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate the InputTemplate</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -258,7 +258,7 @@ Chemical conditions over time are taken from file</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.get_mapper">
-<code class="sig-name descname">get_mapper</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.get_mapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.get_mapper" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_mapper</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.get_mapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.get_mapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a mapper for control volumes in system</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -269,7 +269,7 @@ Chemical conditions over time are taken from file</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.system_importer.SystemImporter.step">
-<code class="sig-name descname">step</code><span class="sig-paren">(</span><em class="sig-param">delta_time: float</em>, <em class="sig-param">update: pandas.core.frame.DataFrame = Empty DataFrame Columns: [] Index: []</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/system_importer.html#SystemImporter.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.step" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">step</code><span class="sig-paren">(</span><em class="sig-param">delta_time: float</em>, <em class="sig-param">update: pandas.core.frame.DataFrame = Empty DataFrame Columns: [] Index: []</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/system_importer.html#SystemImporter.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.system_importer.SystemImporter.step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a step on system</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -292,12 +292,12 @@ of control volumes</p></li>
 and generate a Solution/Mixture object</p>
 <dl class="class">
 <dt id="iphreeqc.importer.volume_importer.VolumeImporter">
-<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.importer.volume_importer.</code><code class="sig-name descname">VolumeImporter</code><span class="sig-paren">(</span><em class="sig-param">volume: volume_simulation.systems.control_volumes.control_volume.ControlVolume</em>, <em class="sig-param">identifier: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/importer/volume_importer.html#VolumeImporter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.volume_importer.VolumeImporter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.importer.volume_importer.</code><code class="sig-name descname">VolumeImporter</code><span class="sig-paren">(</span><em class="sig-param">volume: volume_simulation.systems.control_volumes.control_volume.ControlVolume</em>, <em class="sig-param">identifier: int</em><span class="sig-paren">)</span><a class="reference internal" href="modules/iphreeqc/importer/volume_importer.html#VolumeImporter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.volume_importer.VolumeImporter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Generate a data block from a Control Volume instance</p>
 <dl class="method">
 <dt id="iphreeqc.importer.volume_importer.VolumeImporter.add_data">
-<code class="sig-name descname">add_data</code><span class="sig-paren">(</span><em class="sig-param">step_result: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/volume_importer.html#VolumeImporter.add_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.volume_importer.VolumeImporter.add_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_data</code><span class="sig-paren">(</span><em class="sig-param">step_result: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/volume_importer.html#VolumeImporter.add_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.volume_importer.VolumeImporter.add_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add Data from result of a step iteration</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -311,7 +311,7 @@ and generate a Solution/Mixture object</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.volume_importer.VolumeImporter.add_output">
-<code class="sig-name descname">add_output</code><span class="sig-paren">(</span><em class="sig-param">output: str</em>, <em class="sig-param">value: object</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/volume_importer.html#VolumeImporter.add_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.volume_importer.VolumeImporter.add_output" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_output</code><span class="sig-paren">(</span><em class="sig-param">output: str</em>, <em class="sig-param">value: object</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/volume_importer.html#VolumeImporter.add_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.volume_importer.VolumeImporter.add_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds output to mixture, and remembers it</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -328,7 +328,7 @@ and generate a Solution/Mixture object</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.volume_importer.VolumeImporter.add_surface">
-<code class="sig-name descname">add_surface</code><span class="sig-paren">(</span><em class="sig-param">surface: iphreeqc.phreeqc.data_block.surface.Surface</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/volume_importer.html#VolumeImporter.add_surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.volume_importer.VolumeImporter.add_surface" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_surface</code><span class="sig-paren">(</span><em class="sig-param">surface: iphreeqc.phreeqc.data_block.surface.Surface</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/volume_importer.html#VolumeImporter.add_surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.volume_importer.VolumeImporter.add_surface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add surface to control volume</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -342,7 +342,7 @@ and generate a Solution/Mixture object</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.volume_importer.VolumeImporter.generate">
-<code class="sig-name descname">generate</code><span class="sig-paren">(</span><em class="sig-param">identifier_mixture: int</em>, <em class="sig-param">volume_mapper: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/importer/volume_importer.html#VolumeImporter.generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.volume_importer.VolumeImporter.generate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">generate</code><span class="sig-paren">(</span><em class="sig-param">identifier_mixture: int</em>, <em class="sig-param">volume_mapper: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="modules/iphreeqc/importer/volume_importer.html#VolumeImporter.generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.volume_importer.VolumeImporter.generate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate solution from volume</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -353,7 +353,7 @@ and generate a Solution/Mixture object</p>
 
 <dl class="method">
 <dt id="iphreeqc.importer.volume_importer.VolumeImporter.get_data">
-<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="reference internal" href="_modules/iphreeqc/importer/volume_importer.html#VolumeImporter.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.volume_importer.VolumeImporter.get_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="reference internal" href="modules/iphreeqc/importer/volume_importer.html#VolumeImporter.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.importer.volume_importer.VolumeImporter.get_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data to be added to parser</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
