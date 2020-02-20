@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>iphreeqc.phreeqc.data_block.solution &#8212; MassAnalysis 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for iphreeqc.phreeqc.data_block.solution</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;solution.py: Solution class&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">iphreeqc.phreeqc.data_block</span> <span class="kn">import</span> <span class="n">DataBlock</span><span class="p">,</span> <span class="n">Boundary</span><span class="p">,</span> <span class="n">Mixture</span><span class="p">,</span> <span class="n">Surface</span>
+<span class="kn">from</span> <span class="nn">iphreeqc.phreeqc.data_block.mixture</span> <span class="kn">import</span> <span class="n">SafeDict</span>
+<span class="kn">from</span> <span class="nn">iphreeqc.phreeqc.data_block.basic_statements</span> <span class="kn">import</span> <span class="n">BasicStatement</span>
+
+<span class="n">EXCLUDED_PARAMETERS_ON_PUNCH</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;temp&quot;</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="s2">&quot;redox&quot;</span><span class="p">,</span> <span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;pH&quot;</span><span class="p">,</span> <span class="s2">&quot;pe&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="Solution"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.solution.Solution">[docs]</a><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="n">DataBlock</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A solution, view as a chemical source</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__exclusive_parameters</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;_info_to_add&quot;</span><span class="p">,</span> <span class="s2">&quot;mixture&quot;</span><span class="p">,</span> <span class="s2">&quot;_synonyms&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;surfaces&quot;</span><span class="p">,</span> <span class="s2">&quot;equilibrium_phases&quot;</span><span class="p">,</span> <span class="s2">&quot;kinetic_phases&quot;</span><span class="p">,</span> <span class="s2">&quot;saturation_indexes&quot;</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;SOLUTION&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">identifier</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mixture</span> <span class="o">=</span> <span class="n">Boundary</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_info_to_add</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_synonyms</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">equilibrium_phases</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kinetic_phases</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">saturation_indexes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+<div class="viewcode-block" id="Solution.associates_mixture"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.solution.Solution.associates_mixture">[docs]</a>    <span class="k">def</span> <span class="nf">associates_mixture</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mixture</span><span class="p">:</span> <span class="n">Mixture</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Associates a mixture to this solution</span>
+
+<span class="sd">        :param mixture: A Mixture object</span>
+<span class="sd">        :return: None, alter self.mixture</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mixture</span> <span class="o">=</span> <span class="n">mixture</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mixture</span><span class="o">.</span><span class="n">associate_solution</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">equilibrium_phases</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kinetic_phases</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Solution.update_parameter"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.solution.Solution.update_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">update_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">datum</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a parameter</span>
+
+<span class="sd">        :param parameter: Parameter to update</span>
+<span class="sd">        :param datum: Parameter to replace</span>
+<span class="sd">        :return: None, alter self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">datum</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Solution.updates_parameters"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.solution.Solution.updates_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">updates_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates parameters given</span>
+
+<span class="sd">        :param parameters: A dictionary with parameter (key) and new value (value)</span>
+<span class="sd">        :return: None, alter self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Solution.add_info_to"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.solution.Solution.add_info_to">[docs]</a>    <span class="k">def</span> <span class="nf">add_info_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">extra_info</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add info to a parameter</span>
+
+<span class="sd">        :param parameter: Parameter to add info</span>
+<span class="sd">        :param extra_info: Information to add</span>
+<span class="sd">        :return: None, alter self._info_to_add</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_info_to_add</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">extra_info</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Solution.add_saturation_index"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.solution.Solution.add_saturation_index">[docs]</a>    <span class="k">def</span> <span class="nf">add_saturation_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">saturation_index</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add saturation index to equilibrium phases</span>
+
+<span class="sd">        :param parameter: Parameter to have si</span>
+<span class="sd">        :param saturation_index: A valid SI</span>
+<span class="sd">        :return: None, alter self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">saturation_indexes</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">saturation_index</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Solution.add_equilibrium_phase"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.solution.Solution.add_equilibrium_phase">[docs]</a>    <span class="k">def</span> <span class="nf">add_equilibrium_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span> <span class="ow">or</span> <span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add equilibrium phase data</span>
+
+<span class="sd">        :param parameter: Name (or list of name) of equilibrium value to add</span>
+<span class="sd">        :return: None, alter self.equilibrium_phases</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">equilibrium_phases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">equilibrium_phases</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Solution.add_kinetic_phase"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.solution.Solution.add_kinetic_phase">[docs]</a>    <span class="k">def</span> <span class="nf">add_kinetic_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span> <span class="ow">or</span> <span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add kinetic phases data</span>
+
+<span class="sd">        :param parameter: Name (or list of name) of kinetic value to add</span>
+<span class="sd">        :return: None, alter self.kinetic_phases</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">formula</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kinetic_phases</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kinetic_phases</span><span class="p">[</span><span class="n">formula</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kinetic_phases</span><span class="p">[</span><span class="n">formula</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">param</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">parameter</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_kinetic_phase</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Solution.add_surface"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.solution.Solution.add_surface">[docs]</a>    <span class="k">def</span> <span class="nf">add_surface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">surface</span><span class="p">:</span> <span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add surface to control volume</span>
+
+<span class="sd">        :param surface: A Surface</span>
+<span class="sd">        :return: None, alter self.surfaces</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">surface</span><span class="o">.</span><span class="n">equilibrate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">surface</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Solution.element_as"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.solution.Solution.element_as">[docs]</a>    <span class="k">def</span> <span class="nf">element_as</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">synonym</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add element equivalent molecule to format output</span>
+
+<span class="sd">        :param parameter: Element</span>
+<span class="sd">        :param synonym: Element as</span>
+<span class="sd">        :return: None, alter self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_info_to</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="s2">&quot;as </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">synonym</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_synonyms</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">synonym</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Solution.parse"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.solution.Solution.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse a particular solution in a data block</span>
+
+<span class="sd">        :param kwargs:</span>
+<span class="sd">            See below</span>
+<span class="sd">        :keyword data: Data to replace values</span>
+<span class="sd">        :return: Text to be inserted on template</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;SOLUTION </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">updates_parameters</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="n">Solution</span><span class="o">.</span><span class="n">__exclusive_parameters</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot; </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info_to_add</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info_to_add</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                    <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot; </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_info_to_add</span><span class="p">[</span><span class="n">attribute</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">eq_phases</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">e_phase</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">equilibrium_phases</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">eq_phases</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">EQUILIBRIUM_PHASES </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                <span class="n">eq_phases</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot; </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e_phase</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">saturation_indexes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">e_phase</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                                         <span class="s2">&quot;{e_phases_</span><span class="si">%s</span><span class="s2">}&quot;</span> <span class="o">%</span> <span class="n">e_phase</span><span class="p">)</span>
+        <span class="n">k_phases</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">k_phase</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kinetic_phases</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">k_phases</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">KINETICS </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                <span class="n">k_phases</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k_phase</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;formula&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kinetic_phases</span><span class="p">[</span><span class="n">k_phase</span><span class="p">]:</span>
+                <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;-formula </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k_phase</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kinetic_phases</span><span class="p">[</span><span class="n">k_phase</span><span class="p">]:</span>
+                <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;-</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="s2">&quot;{k_phases_</span><span class="si">%s</span><span class="s2">_</span><span class="si">%s</span><span class="s2">}&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k_phase</span><span class="p">,</span> <span class="n">param</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">+=</span> <span class="n">surface</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;END</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">format_map</span><span class="p">(</span><span class="n">SafeDict</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">text</span></div>
+
+<div class="viewcode-block" id="Solution.parse_mixture"><a class="viewcode-back" href="../../../../iphreeqc.phreeqc.data_block.html#iphreeqc.phreeqc.data_block.solution.Solution.parse_mixture">[docs]</a>    <span class="k">def</span> <span class="nf">parse_mixture</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse mixture associates with this solution</span>
+
+<span class="sd">        :param kwargs: Keyword arguments of mixture.parse()</span>
+<span class="sd">        :return: DataBlock of mixture</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_user_punch</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mixture</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_update_user_punch</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update user punch for values on solution</span>
+
+<span class="sd">        :return: None, alter self.mixture.user.punch</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mixture</span><span class="o">.</span><span class="n">user_punch</span><span class="o">.</span><span class="n">add_heading</span><span class="p">(</span><span class="s2">&quot;RHO&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mixture</span><span class="o">.</span><span class="n">user_punch</span><span class="o">.</span><span class="n">add_punch</span><span class="p">(</span><span class="n">BasicStatement</span><span class="o">.</span><span class="n">DensityOfSolution</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">head</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">head</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Solution</span><span class="o">.</span><span class="n">__exclusive_parameters</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">head</span> <span class="o">==</span> <span class="s2">&quot;Alkalinity&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mixture</span><span class="o">.</span><span class="n">user_punch</span><span class="o">.</span><span class="n">add_punch</span><span class="p">(</span><span class="n">BasicStatement</span><span class="o">.</span><span class="n">Alkalinity</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mixture</span><span class="o">.</span><span class="n">user_punch</span><span class="o">.</span><span class="n">add_heading</span><span class="p">(</span><span class="n">head</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">head</span> <span class="ow">in</span> <span class="n">EXCLUDED_PARAMETERS_ON_PUNCH</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mixture</span><span class="o">.</span><span class="n">user_punch</span><span class="o">.</span><span class="n">add_punch</span><span class="p">(</span><span class="n">BasicStatement</span><span class="o">.</span><span class="n">TotalMolality</span><span class="p">,</span> <span class="n">head</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mixture</span><span class="o">.</span><span class="n">user_punch</span><span class="o">.</span><span class="n">add_heading</span><span class="p">(</span><span class="n">head</span><span class="p">)</span>
+        <span class="k">return</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../index.html">MassAnalysis</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../iphreeqc.html">iphreeqc package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../volume_simulation.html">volume_simulation package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Juan Saez Hidalgo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

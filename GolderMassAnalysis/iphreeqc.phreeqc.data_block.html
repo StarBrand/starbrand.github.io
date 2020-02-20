@@ -1,0 +1,835 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>iphreeqc.phreeqc.data_block package &#8212; MassAnalysis 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="volume_simulation package" href="volume_simulation.html" />
+    <link rel="prev" title="iphreeqc.phreeqc package" href="iphreeqc.phreeqc.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="iphreeqc-phreeqc-data-block-package">
+<h1>iphreeqc.phreeqc.data_block package<a class="headerlink" href="#iphreeqc-phreeqc-data-block-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-iphreeqc.phreeqc.data_block">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iphreeqc.phreeqc.data_block" title="Permalink to this headline">¶</a></h2>
+<p>data_block: Packages of data blocks of template</p>
+</div>
+<div class="section" id="module-iphreeqc.phreeqc.data_block.basic_statements">
+<span id="classes"></span><h2>Classes<a class="headerlink" href="#module-iphreeqc.phreeqc.data_block.basic_statements" title="Permalink to this headline">¶</a></h2>
+<p>basic_statements.py: Basic statements and functions for PHREEQC defined</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.basic_statements.BasicStatement">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.basic_statements.</code><code class="sig-name descname">BasicStatement</code><span class="sig-paren">(</span><em class="sig-param">statement: str</em>, <em class="sig-param">argument: object = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/basic_statements.html#BasicStatement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.basic_statements.BasicStatement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.Alkalinity">
+<code class="sig-name descname">Alkalinity</code><em class="property"> = 'ALK'</em><a class="headerlink" href="#iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.Alkalinity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.DensityOfSolution">
+<code class="sig-name descname">DensityOfSolution</code><em class="property"> = 'RHO'</em><a class="headerlink" href="#iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.DensityOfSolution" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.MolesOfEquilibriumPhase">
+<code class="sig-name descname">MolesOfEquilibriumPhase</code><em class="property"> = 'EQUI'</em><a class="headerlink" href="#iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.MolesOfEquilibriumPhase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.MolesOfKineticReactant">
+<code class="sig-name descname">MolesOfKineticReactant</code><em class="property"> = 'KIN'</em><a class="headerlink" href="#iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.MolesOfKineticReactant" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.ParameterInKinetic">
+<code class="sig-name descname">ParameterInKinetic</code><em class="property"> = 'PARM'</em><a class="headerlink" href="#iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.ParameterInKinetic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.SaturationIndex">
+<code class="sig-name descname">SaturationIndex</code><em class="property"> = 'SI'</em><a class="headerlink" href="#iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.SaturationIndex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.TotalMolality">
+<code class="sig-name descname">TotalMolality</code><em class="property"> = 'TOT'</em><a class="headerlink" href="#iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.TotalMolality" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">number: int) -&gt; (&lt;class 'str'&gt;</em>, <em class="sig-param">&lt;class 'int'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/basic_statements.html#BasicStatement.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.basic_statements.BasicStatement.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse basic statement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>number</strong> – Last number used</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Tuple:
+Parsed text
+Number used</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.boundary"></span><p>boundary.py: A NullObject of Mixture</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.boundary.Boundary">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.boundary.</code><code class="sig-name descname">Boundary</code><span class="sig-paren">(</span><em class="sig-param">identifier: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/boundary.html#Boundary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.boundary.Boundary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.mixture.Mixture" title="iphreeqc.phreeqc.data_block.mixture.Mixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.mixture.Mixture</span></code></a></p>
+<p>Boundary, a chemical source, but without a mixture</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.boundary.Boundary.add_equilibrium_phase">
+<code class="sig-name descname">add_equilibrium_phase</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/boundary.html#Boundary.add_equilibrium_phase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.boundary.Boundary.add_equilibrium_phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add equilibrium phase data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameter</strong> – Name (or list of name) of equilibrium value to add</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.equilibrium_phases</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.boundary.Boundary.add_kinetic_phase">
+<code class="sig-name descname">add_kinetic_phase</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/boundary.html#Boundary.add_kinetic_phase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.boundary.Boundary.add_kinetic_phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add kinetic phases data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameter</strong> – Name (or list of name) of kinetic value to add</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.kinetic_phases</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.boundary.Boundary.add_saturation_index">
+<code class="sig-name descname">add_saturation_index</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em>, <em class="sig-param">saturation_index: float</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/boundary.html#Boundary.add_saturation_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.boundary.Boundary.add_saturation_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add saturation index to equilibrium phases</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameter</strong> – Parameter to have si</p></li>
+<li><p><strong>saturation_index</strong> – A valid SI</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.boundary.Boundary.add_solution">
+<code class="sig-name descname">add_solution</code><span class="sig-paren">(</span><em class="sig-param">identifier: int</em>, <em class="sig-param">control_volume_2: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/boundary.html#Boundary.add_solution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.boundary.Boundary.add_solution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a solution to the mix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>identifier</strong> – Id of solution to add</p></li>
+<li><p><strong>control_volume_2</strong> – Name of control volume out</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.solutions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.boundary.Boundary.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/boundary.html#Boundary.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.boundary.Boundary.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse mixture to add on input template</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kwargs</strong> – See below</p></li>
+<li><p><strong>data</strong> – Data to complete numerical values</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text to add on template</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.data_block"></span><p>data_block: Data Block super class for parsing input</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.data_block.DataBlock">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.data_block.</code><code class="sig-name descname">DataBlock</code><span class="sig-paren">(</span><em class="sig-param">name: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/data_block.html#DataBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.data_block.DataBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Data Block super class to parse option on input template of phreeqc</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.data_block.DataBlock.parse">
+<em class="property">abstract </em><code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/data_block.html#DataBlock.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.data_block.DataBlock.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse data block in text to use in header</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Text of data block</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.header"></span><p>header.py: Static values on data block</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.header.Header">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.header.</code><code class="sig-name descname">Header</code><span class="sig-paren">(</span><em class="sig-param">name: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/header.html#Header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.header.Header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.data_block.DataBlock" title="iphreeqc.phreeqc.data_block.data_block.DataBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.data_block.DataBlock</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Header class, an abstract instance of DataBlock</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.header.Header.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/header.html#Header.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.header.Header.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse solution master species</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kwargs</strong> – See below</p></li>
+<li><p><strong>first</strong> – If is he first element in list</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text of template</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.mixture"></span><p>mixture.py: Mixture class</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.mixture.Mixture">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.mixture.</code><code class="sig-name descname">Mixture</code><span class="sig-paren">(</span><em class="sig-param">identifier: int</em>, <em class="sig-param">output: dict = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/mixture.html#Mixture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.mixture.Mixture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.data_block.DataBlock" title="iphreeqc.phreeqc.data_block.data_block.DataBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.data_block.DataBlock</span></code></a></p>
+<p>Mixture with elements, equilibrium phases and kinetic phases</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.mixture.Mixture.add_solution">
+<code class="sig-name descname">add_solution</code><span class="sig-paren">(</span><em class="sig-param">identifier: int</em>, <em class="sig-param">control_volume_2: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/mixture.html#Mixture.add_solution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.mixture.Mixture.add_solution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a solution to the mix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>identifier</strong> – Id of solution to add</p></li>
+<li><p><strong>control_volume_2</strong> – Name of control volume out</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.solutions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.mixture.Mixture.associate_solution">
+<code class="sig-name descname">associate_solution</code><span class="sig-paren">(</span><em class="sig-param">solution: int</em>, <em class="sig-param">equilibrium_phases: list</em>, <em class="sig-param">kinetic_phases: dict</em>, <em class="sig-param">surfaces: bool</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/mixture.html#Mixture.associate_solution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.mixture.Mixture.associate_solution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Associate mixture with a solution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solution</strong> – An id of solution</p></li>
+<li><p><strong>equilibrium_phases</strong> – Equilibrium phases from solution</p></li>
+<li><p><strong>kinetic_phases</strong> – Kinetic phases from solution</p></li>
+<li><p><strong>surfaces</strong> – If there is surface</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.solution and solution</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.mixture.Mixture.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/mixture.html#Mixture.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.mixture.Mixture.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse mixture to add on input template</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kwargs</strong> – See below</p></li>
+<li><p><strong>data</strong> – Data to complete numerical values</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text to add on template</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.data_block.mixture.Mixture.solutions">
+<code class="sig-name descname">solutions</code><em class="property"> = None</em><a class="headerlink" href="#iphreeqc.phreeqc.data_block.mixture.Mixture.solutions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output options: defined by default</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.mixture.Mixture.update_self_ratio">
+<code class="sig-name descname">update_self_ratio</code><span class="sig-paren">(</span><em class="sig-param">ratio: float</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/mixture.html#Mixture.update_self_ratio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.mixture.Mixture.update_self_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update self ratio on mixture</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ratio</strong> – Ratio to modify</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Update ratio, if ratio is invalid, updating fails and return previous value</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.mixture.SafeDict">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.mixture.</code><code class="sig-name descname">SafeDict</code><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/mixture.html#SafeDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.mixture.SafeDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
+<p>Thanks to falsetru on <a class="reference external" href="https://stackoverflow.com">https://stackoverflow.com</a> for this solution</p>
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.phases"></span><p>phases.py: Phases Data Block class</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.phases.Phases">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.phases.</code><code class="sig-name descname">Phases</code><span class="sig-paren">(</span><em class="sig-param">phase_name: str</em>, <em class="sig-param">dissolution_reaction: str</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/phases.html#Phases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.phases.Phases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.solution_species.SolutionSpecies" title="iphreeqc.phreeqc.data_block.solution_species.SolutionSpecies"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.solution_species.SolutionSpecies</span></code></a></p>
+<p>To define properties for each gas component and mineral tha can be used.</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.phases.Phases.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/phases.html#Phases.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.phases.Phases.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse species</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kwargs</strong> – See below</p></li>
+<li><p><strong>first</strong> – If is he first element in list</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text of template</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.rates"></span><p>rates.py: Rates Data Block class</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.rates.Rates">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.rates.</code><code class="sig-name descname">Rates</code><span class="sig-paren">(</span><em class="sig-param">name_of_rate_expression: str</em>, <em class="sig-param">numbered_basic_statement: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/rates.html#Rates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.rates.Rates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.header.Header" title="iphreeqc.phreeqc.data_block.header.Header"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.header.Header</span></code></a></p>
+<p>To define mathematical rate expressions for kinetic reaction</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.rates.Rates.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/rates.html#Rates.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.rates.Rates.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse rate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kwargs</strong> – See below</p></li>
+<li><p><strong>first</strong> – If is he first element in list</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text of template</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.solution"></span><p>solution.py: Solution class</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.solution.Solution">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.solution.</code><code class="sig-name descname">Solution</code><span class="sig-paren">(</span><em class="sig-param">identifier: int</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution.html#Solution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution.Solution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.data_block.DataBlock" title="iphreeqc.phreeqc.data_block.data_block.DataBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.data_block.DataBlock</span></code></a></p>
+<p>A solution, view as a chemical source</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution.Solution.add_equilibrium_phase">
+<code class="sig-name descname">add_equilibrium_phase</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution.html#Solution.add_equilibrium_phase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution.Solution.add_equilibrium_phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add equilibrium phase data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameter</strong> – Name (or list of name) of equilibrium value to add</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.equilibrium_phases</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution.Solution.add_info_to">
+<code class="sig-name descname">add_info_to</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em>, <em class="sig-param">extra_info: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution.html#Solution.add_info_to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution.Solution.add_info_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add info to a parameter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameter</strong> – Parameter to add info</p></li>
+<li><p><strong>extra_info</strong> – Information to add</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self._info_to_add</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution.Solution.add_kinetic_phase">
+<code class="sig-name descname">add_kinetic_phase</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution.html#Solution.add_kinetic_phase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution.Solution.add_kinetic_phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add kinetic phases data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameter</strong> – Name (or list of name) of kinetic value to add</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.kinetic_phases</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution.Solution.add_saturation_index">
+<code class="sig-name descname">add_saturation_index</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em>, <em class="sig-param">saturation_index: float</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution.html#Solution.add_saturation_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution.Solution.add_saturation_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add saturation index to equilibrium phases</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameter</strong> – Parameter to have si</p></li>
+<li><p><strong>saturation_index</strong> – A valid SI</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution.Solution.add_surface">
+<code class="sig-name descname">add_surface</code><span class="sig-paren">(</span><em class="sig-param">surface: iphreeqc.phreeqc.data_block.surface.Surface</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution.html#Solution.add_surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution.Solution.add_surface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add surface to control volume</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>surface</strong> – A Surface</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.surfaces</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution.Solution.associates_mixture">
+<code class="sig-name descname">associates_mixture</code><span class="sig-paren">(</span><em class="sig-param">mixture: iphreeqc.phreeqc.data_block.mixture.Mixture</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution.html#Solution.associates_mixture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution.Solution.associates_mixture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Associates a mixture to this solution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mixture</strong> – A Mixture object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.mixture</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution.Solution.element_as">
+<code class="sig-name descname">element_as</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em>, <em class="sig-param">synonym: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution.html#Solution.element_as"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution.Solution.element_as" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add element equivalent molecule to format output</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameter</strong> – Element</p></li>
+<li><p><strong>synonym</strong> – Element as</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution.Solution.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution.html#Solution.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution.Solution.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a particular solution in a data block</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kwargs</strong> – See below</p></li>
+<li><p><strong>data</strong> – Data to replace values</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text to be inserted on template</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution.Solution.parse_mixture">
+<code class="sig-name descname">parse_mixture</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution.html#Solution.parse_mixture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution.Solution.parse_mixture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse mixture associates with this solution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Keyword arguments of mixture.parse()</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataBlock of mixture</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution.Solution.update_parameter">
+<code class="sig-name descname">update_parameter</code><span class="sig-paren">(</span><em class="sig-param">parameter: str</em>, <em class="sig-param">datum</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution.html#Solution.update_parameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution.Solution.update_parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a parameter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameter</strong> – Parameter to update</p></li>
+<li><p><strong>datum</strong> – Parameter to replace</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution.Solution.updates_parameters">
+<code class="sig-name descname">updates_parameters</code><span class="sig-paren">(</span><em class="sig-param">parameters: dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution.html#Solution.updates_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution.Solution.updates_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates parameters given</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>parameters</strong> – A dictionary with parameter (key) and new value (value)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.solution_master_species"></span><p>solution_master_species.py: SolutionMasterSpecies class</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.solution_master_species.SolutionMasterSpecies">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.solution_master_species.</code><code class="sig-name descname">SolutionMasterSpecies</code><span class="sig-paren">(</span><em class="sig-param">elem_name: str</em>, <em class="sig-param">master_species: str</em>, <em class="sig-param">alkalinity: float</em>, <em class="sig-param">gram_of_element: float</em>, <em class="sig-param">gram_formula_weight: str = ''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution_master_species.html#SolutionMasterSpecies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution_master_species.SolutionMasterSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.header.Header" title="iphreeqc.phreeqc.data_block.header.Header"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.header.Header</span></code></a></p>
+<p>Correspondence between element names and
+aqueous primary and secondary species</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution_master_species.SolutionMasterSpecies.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution_master_species.html#SolutionMasterSpecies.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution_master_species.SolutionMasterSpecies.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse solution master species</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kwargs</strong> – See below</p></li>
+<li><p><strong>first</strong> – If is he first element in list</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text of template</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.solution_species"></span><p>solution_species.py: SolutionSpecies class</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.solution_species.SolutionSpecies">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.solution_species.</code><code class="sig-name descname">SolutionSpecies</code><span class="sig-paren">(</span><em class="sig-param">association_reaction: str</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution_species.html#SolutionSpecies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution_species.SolutionSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.header.Header" title="iphreeqc.phreeqc.data_block.header.Header"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.header.Header</span></code></a></p>
+<p>To define chemical reaction, log K, and activity-coefficient parameters
+for each aqueous species</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.solution_species.SolutionSpecies.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/solution_species.html#SolutionSpecies.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.solution_species.SolutionSpecies.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse solution species</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kwargs</strong> – See below</p></li>
+<li><p><strong>first</strong> – If is he first element in list</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text of template</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.static_header"></span><p>static_header.py: Header to be parser as is</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.static_header.StaticHeader">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.static_header.</code><code class="sig-name descname">StaticHeader</code><span class="sig-paren">(</span><em class="sig-param">text: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/static_header.html#StaticHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.static_header.StaticHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.header.Header" title="iphreeqc.phreeqc.data_block.header.Header"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.header.Header</span></code></a></p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.static_header.StaticHeader.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/static_header.html#StaticHeader.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.static_header.StaticHeader.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return text</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – None</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.surface"></span><p>surface.py: Surface data block</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.surface.Surface">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.surface.</code><code class="sig-name descname">Surface</code><span class="sig-paren">(</span><em class="sig-param">equilibrate: str = None</em>, <em class="sig-param">solution_mapper: {&lt;class 'str'&gt;: &lt;class 'int'&gt;} = None</em>, <em class="sig-param">sites_units: str = None</em>, <em class="sig-param">diffuse_layer: float = None</em>, <em class="sig-param">cd_music: bool = False</em>, <em class="sig-param">capacitances: (&lt;class 'float'&gt;</em>, <em class="sig-param">&lt;class 'float'&gt;) = None</em>, <em class="sig-param">donnan: dict = None</em>, <em class="sig-param">only_counter_ions: bool = None</em>, <em class="sig-param">no_edl: bool = False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/surface.html#Surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.surface.Surface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.data_block.DataBlock" title="iphreeqc.phreeqc.data_block.data_block.DataBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.data_block.DataBlock</span></code></a></p>
+<p>Data block that defines the amount and composition of each
+surface in surface assemblage</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.surface.Surface.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/surface.html#Surface.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.surface.Surface.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse data block in text to use in header</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kwargs</strong> – See below</p></li>
+<li><p><strong>number</strong> – Relative number on template</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text of data block</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.surface_master_species"></span><p>surface_master_species.py: SurfaceMasterSpecies class</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.surface_master_species.SurfaceMasterSpecies">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.surface_master_species.</code><code class="sig-name descname">SurfaceMasterSpecies</code><span class="sig-paren">(</span><em class="sig-param">binding_site_name: str</em>, <em class="sig-param">master_species: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/surface_master_species.html#SurfaceMasterSpecies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.surface_master_species.SurfaceMasterSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.header.Header" title="iphreeqc.phreeqc.data_block.header.Header"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.header.Header</span></code></a></p>
+<p>Correspondence between surface binding-site names and
+surface master species</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.surface_master_species.SurfaceMasterSpecies.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/surface_master_species.html#SurfaceMasterSpecies.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.surface_master_species.SurfaceMasterSpecies.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse solution master species</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kwargs</strong> – See below</p></li>
+<li><p><strong>first</strong> – If is he first element in list</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text of template</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.surface_species"></span><p>surface_species.py: SurfaceSpecies class</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.surface_species.SurfaceSpecies">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.surface_species.</code><code class="sig-name descname">SurfaceSpecies</code><span class="sig-paren">(</span><em class="sig-param">association_reaction: str</em>, <em class="sig-param">log_k: float</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/surface_species.html#SurfaceSpecies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.surface_species.SurfaceSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.header.Header" title="iphreeqc.phreeqc.data_block.header.Header"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.header.Header</span></code></a></p>
+<p>To define a reaction and log K for each surface species, including
+surface master species</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.surface_species.SurfaceSpecies.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/surface_species.html#SurfaceSpecies.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.surface_species.SurfaceSpecies.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse solution species</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kwargs</strong> – See below</p></li>
+<li><p><strong>first</strong> – If is he first element in list</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Text of template</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.data_block.user_punch"></span><p>user_punch.py: DataBlock UserPunch, describe output of mixture</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.data_block.user_punch.UserPunch">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.data_block.user_punch.</code><code class="sig-name descname">UserPunch</code><a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/user_punch.html#UserPunch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.user_punch.UserPunch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#iphreeqc.phreeqc.data_block.data_block.DataBlock" title="iphreeqc.phreeqc.data_block.data_block.DataBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">iphreeqc.phreeqc.data_block.data_block.DataBlock</span></code></a></p>
+<p>UserPunch DataBlock. Punch statements</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.user_punch.UserPunch.add_heading">
+<code class="sig-name descname">add_heading</code><span class="sig-paren">(</span><em class="sig-param">heading: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/user_punch.html#UserPunch.add_heading"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.user_punch.UserPunch.add_heading" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add heading to list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>heading</strong> – A heading or a list of</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.heading</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.user_punch.UserPunch.add_punch">
+<code class="sig-name descname">add_punch</code><span class="sig-paren">(</span><em class="sig-param">basic_statement: str</em>, <em class="sig-param">argument: object = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/user_punch.html#UserPunch.add_punch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.user_punch.UserPunch.add_punch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add basic program as a basic PUNCH</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basic_statement</strong> – One of BasicStatement.&lt;provided&gt;</p></li>
+<li><p><strong>argument</strong> – Valid argument, or None in case available</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.punch</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.data_block.user_punch.UserPunch.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/data_block/user_punch.html#UserPunch.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.data_block.user_punch.UserPunch.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse UserPunch</p>
+<p>:param kwargs:None
+:return: Text on template</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">MassAnalysis</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="iphreeqc.html">iphreeqc package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="iphreeqc.html#module-iphreeqc">Module contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="iphreeqc.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="iphreeqc.importer.html">iphreeqc.importer package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="iphreeqc.phreeqc.html">iphreeqc.phreeqc package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="iphreeqc.phreeqc.html#module-iphreeqc.phreeqc">Module contents</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="iphreeqc.phreeqc.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iphreeqc.phreeqc.html#module-iphreeqc.phreeqc.databases">Classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="volume_simulation.html">volume_simulation package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="iphreeqc.html">iphreeqc package</a><ul>
+  <li><a href="iphreeqc.phreeqc.html">iphreeqc.phreeqc package</a><ul>
+      <li>Previous: <a href="iphreeqc.phreeqc.html" title="previous chapter">iphreeqc.phreeqc package</a></li>
+      <li>Next: <a href="volume_simulation.html" title="next chapter">volume_simulation package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Juan Saez Hidalgo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/iphreeqc.phreeqc.data_block.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

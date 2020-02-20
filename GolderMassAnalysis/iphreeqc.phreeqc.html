@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>iphreeqc.phreeqc package &#8212; MassAnalysis 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="iphreeqc.phreeqc.data_block package" href="iphreeqc.phreeqc.data_block.html" />
+    <link rel="prev" title="iphreeqc.importer package" href="iphreeqc.importer.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="iphreeqc-phreeqc-package">
+<h1>iphreeqc.phreeqc package<a class="headerlink" href="#iphreeqc-phreeqc-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-iphreeqc.phreeqc">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-iphreeqc.phreeqc" title="Permalink to this headline">¶</a></h2>
+<p>phreeqc: Package that include parser and callers of phreeqc</p>
+</div>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="iphreeqc.phreeqc.data_block.html">iphreeqc.phreeqc.data_block package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="iphreeqc.phreeqc.data_block.html#module-iphreeqc.phreeqc.data_block">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iphreeqc.phreeqc.data_block.html#module-iphreeqc.phreeqc.data_block.basic_statements">Classes</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-iphreeqc.phreeqc.databases">
+<span id="classes"></span><h2>Classes<a class="headerlink" href="#module-iphreeqc.phreeqc.databases" title="Permalink to this headline">¶</a></h2>
+<p>databases.py: Instance of database</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.databases.</code><code class="sig-name descname">DataBasePhreeqc</code><a class="reference internal" href="_modules/iphreeqc/phreeqc/databases.html#DataBasePhreeqc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.AMM">
+<code class="sig-name descname">AMM</code><em class="property"> = 0</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.AMM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.COLD_CHEM">
+<code class="sig-name descname">COLD_CHEM</code><em class="property"> = 1</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.COLD_CHEM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.CORE10">
+<code class="sig-name descname">CORE10</code><em class="property"> = 2</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.CORE10" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.FREZCHEM">
+<code class="sig-name descname">FREZCHEM</code><em class="property"> = 3</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.FREZCHEM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.ISO">
+<code class="sig-name descname">ISO</code><em class="property"> = 4</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.ISO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.LLNL">
+<code class="sig-name descname">LLNL</code><em class="property"> = 5</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.LLNL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.MINTEQ">
+<code class="sig-name descname">MINTEQ</code><em class="property"> = 6</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.MINTEQ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.MINTEQ_V4">
+<code class="sig-name descname">MINTEQ_V4</code><em class="property"> = 7</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.MINTEQ_V4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.PHREEQC">
+<code class="sig-name descname">PHREEQC</code><em class="property"> = 8</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.PHREEQC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.PITZER">
+<code class="sig-name descname">PITZER</code><em class="property"> = 9</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.PITZER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.SIT">
+<code class="sig-name descname">SIT</code><em class="property"> = 10</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.SIT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.TIPPING_HURLEY">
+<code class="sig-name descname">TIPPING_HURLEY</code><em class="property"> = 11</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.TIPPING_HURLEY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.WATEQ4F">
+<code class="sig-name descname">WATEQ4F</code><em class="property"> = 12</em><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.WATEQ4F" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.databases.DataBasePhreeqc.path">
+<em class="property">static </em><code class="sig-name descname">path</code><span class="sig-paren">(</span><em class="sig-param">database: int</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/databases.html#DataBasePhreeqc.path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.databases.DataBasePhreeqc.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get path from DataBasePhreeqc extension</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>database</strong> – Database available</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Path to database</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.input_template"></span><p>input_template.py: Input Template parser</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.input_template.InputTemplate">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.input_template.</code><code class="sig-name descname">InputTemplate</code><a class="reference internal" href="_modules/iphreeqc/phreeqc/input_template.html#InputTemplate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.input_template.InputTemplate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Input Template class</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.input_template.InputTemplate.add_header">
+<code class="sig-name descname">add_header</code><span class="sig-paren">(</span><em class="sig-param">header: iphreeqc.phreeqc.data_block.header.Header</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/input_template.html#InputTemplate.add_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.input_template.InputTemplate.add_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add header to template</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>header</strong> – A header instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.headers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.input_template.InputTemplate.add_solution">
+<code class="sig-name descname">add_solution</code><span class="sig-paren">(</span><em class="sig-param">solution: iphreeqc.phreeqc.data_block.solution.Solution</em>, <em class="sig-param">id_solution: int = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/input_template.html#InputTemplate.add_solution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.input_template.InputTemplate.add_solution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add solution to template</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>solution</strong> – A solution object</p></li>
+<li><p><strong>id_solution</strong> – id of solution, or, assign by default</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter, self.solution</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.input_template.InputTemplate.as_text">
+<code class="sig-name descname">as_text</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/input_template.html#InputTemplate.as_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.input_template.InputTemplate.as_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode template in a text</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Text of an input/output template</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.input_template.InputTemplate.encode">
+<code class="sig-name descname">encode</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/iphreeqc/phreeqc/input_template.html#InputTemplate.encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.input_template.InputTemplate.encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode template in a text</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Text of an input/output template</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.input_template.InputTemplate.print_to_file">
+<code class="sig-name descname">print_to_file</code><span class="sig-paren">(</span><em class="sig-param">path: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/input_template.html#InputTemplate.print_to_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.input_template.InputTemplate.print_to_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print template in a file on path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.module"></span><p>module.py: IPhreeqc module to run a template</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.module.IPhreeqcModule">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.module.</code><code class="sig-name descname">IPhreeqcModule</code><span class="sig-paren">(</span><em class="sig-param">*database: [&lt;class 'int'&gt;], volume_list: [&lt;class 'str'&gt;] = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/module.html#IPhreeqcModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.module.IPhreeqcModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>IPhreeqc Module, wrapper of IPhreeqc.COM</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.module.IPhreeqcModule.add_database">
+<code class="sig-name descname">add_database</code><span class="sig-paren">(</span><em class="sig-param">*database: [&lt;class 'int'&gt;]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/module.html#IPhreeqcModule.add_database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.module.IPhreeqcModule.add_database" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add database to IPhreeqc</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>database</strong> – Database “code” (int defined on DataBasePhreeqc)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.databases_to_use</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.module.IPhreeqcModule.run_phreeqc">
+<code class="sig-name descname">run_phreeqc</code><span class="sig-paren">(</span><em class="sig-param">input_template: iphreeqc.phreeqc.input_template.InputTemplate</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/iphreeqc/phreeqc/module.html#IPhreeqcModule.run_phreeqc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.module.IPhreeqcModule.run_phreeqc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run phreeqc</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_template</strong> – InputTemplate instance with data to run</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame with solicited data and alter self.template and self.output</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-iphreeqc.phreeqc.module_dll"></span><p>module_dll.py: IPhreeqc module (DLL) to run a template</p>
+<dl class="class">
+<dt id="iphreeqc.phreeqc.module_dll.IPhreeqcModuleDLL">
+<em class="property">class </em><code class="sig-prename descclassname">iphreeqc.phreeqc.module_dll.</code><code class="sig-name descname">IPhreeqcModuleDLL</code><span class="sig-paren">(</span><em class="sig-param">*database: [&lt;class 'int'&gt;], volume_list: [&lt;class 'str'&gt;] = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/iphreeqc/phreeqc/module_dll.html#IPhreeqcModuleDLL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.module_dll.IPhreeqcModuleDLL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>IPhreeqc Module, wrapper of IPhreeqc.COM</p>
+<dl class="method">
+<dt id="iphreeqc.phreeqc.module_dll.IPhreeqcModuleDLL.add_database">
+<code class="sig-name descname">add_database</code><span class="sig-paren">(</span><em class="sig-param">*database: [&lt;class 'int'&gt;]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/iphreeqc/phreeqc/module_dll.html#IPhreeqcModuleDLL.add_database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.module_dll.IPhreeqcModuleDLL.add_database" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add database to IPhreeqc</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>database</strong> – Database “code” (int defined on DataBasePhreeqc)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, alter self.databases_to_use</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.module_dll.IPhreeqcModuleDLL.parse_output">
+<code class="sig-name descname">parse_output</code><span class="sig-paren">(</span><em class="sig-param">output: bytes</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/iphreeqc/phreeqc/module_dll.html#IPhreeqcModuleDLL.parse_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.module_dll.IPhreeqcModuleDLL.parse_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse encode string from IPhreeqc DLL to pandas</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>output</strong> – Output of dll</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Output as pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="iphreeqc.phreeqc.module_dll.IPhreeqcModuleDLL.run_phreeqc">
+<code class="sig-name descname">run_phreeqc</code><span class="sig-paren">(</span><em class="sig-param">input_template: iphreeqc.phreeqc.input_template.InputTemplate</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="_modules/iphreeqc/phreeqc/module_dll.html#IPhreeqcModuleDLL.run_phreeqc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#iphreeqc.phreeqc.module_dll.IPhreeqcModuleDLL.run_phreeqc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run phreeqc</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_template</strong> – InputTemplate instance with data to run</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DataFrame with solicited data and alter self.template and self.output</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">MassAnalysis</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="iphreeqc.html">iphreeqc package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="iphreeqc.html#module-iphreeqc">Module contents</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="iphreeqc.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="iphreeqc.importer.html">iphreeqc.importer package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">iphreeqc.phreeqc package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-iphreeqc.phreeqc">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-iphreeqc.phreeqc.databases">Classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="volume_simulation.html">volume_simulation package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="iphreeqc.html">iphreeqc package</a><ul>
+      <li>Previous: <a href="iphreeqc.importer.html" title="previous chapter">iphreeqc.importer package</a></li>
+      <li>Next: <a href="iphreeqc.phreeqc.data_block.html" title="next chapter">iphreeqc.phreeqc.data_block package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Juan Saez Hidalgo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/iphreeqc.phreeqc.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

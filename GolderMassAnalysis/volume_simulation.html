@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>volume_simulation package &#8212; MassAnalysis 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="volume_simulation.engine package" href="volume_simulation.engine.html" />
+    <link rel="prev" title="iphreeqc.phreeqc.data_block package" href="iphreeqc.phreeqc.data_block.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="volume-simulation-package">
+<h1>volume_simulation package<a class="headerlink" href="#volume-simulation-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-volume_simulation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-volume_simulation" title="Permalink to this headline">¶</a></h2>
+<p>volume_simulation: Simulates control volume and calculates its volumes over time</p>
+</div>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="volume_simulation.engine.html">volume_simulation.engine package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="volume_simulation.engine.html#module-volume_simulation.engine">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_simulation.engine.html#module-volume_simulation.engine.basic_engine">Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="volume_simulation.systems.html">volume_simulation.systems package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="volume_simulation.systems.html#module-volume_simulation.systems">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_simulation.systems.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="volume_simulation.systems.control_volumes.html">volume_simulation.systems.control_volumes package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="volume_simulation.systems.control_volumes.html#module-volume_simulation.systems.control_volumes">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="volume_simulation.systems.control_volumes.html#module-volume_simulation.systems.control_volumes.control_volume">Classes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="volume_simulation.systems.html#module-volume_simulation.systems.system">Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="volume_simulation.visualization.html">volume_simulation.visualization package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="volume_simulation.visualization.html#module-volume_simulation.visualization">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_simulation.visualization.html#module-volume_simulation.visualization.concentration_visualization">Classes</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-volume_simulation.logger">
+<span id="classes"></span><h2>Classes<a class="headerlink" href="#module-volume_simulation.logger" title="Permalink to this headline">¶</a></h2>
+<p>logger.py: Logger class, handle whether logs on a file or logging on std error/out</p>
+<dl class="class">
+<dt id="volume_simulation.logger.Logger">
+<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.logger.</code><code class="sig-name descname">Logger</code><span class="sig-paren">(</span><em class="sig-param">log_on_file: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/volume_simulation/logger.html#Logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.logger.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Generate logging on standard error or file</p>
+<dl class="method">
+<dt id="volume_simulation.logger.Logger.close">
+<code class="sig-name descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/logger.html#Logger.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.logger.Logger.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close file if it exist</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None, alter self.file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="volume_simulation.logger.Logger.debug">
+<code class="sig-name descname">debug</code><span class="sig-paren">(</span><em class="sig-param">message: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/logger.html#Logger.debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.logger.Logger.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logging information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> – Message to log</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, logging or write file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="volume_simulation.logger.Logger.error">
+<code class="sig-name descname">error</code><span class="sig-paren">(</span><em class="sig-param">message: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/logger.html#Logger.error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.logger.Logger.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logging information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> – Message to log</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, logging or write file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="volume_simulation.logger.Logger.info">
+<code class="sig-name descname">info</code><span class="sig-paren">(</span><em class="sig-param">message: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/logger.html#Logger.info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.logger.Logger.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logging information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> – Message to log</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, logging or write file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="volume_simulation.logger.Logger.warning">
+<code class="sig-name descname">warning</code><span class="sig-paren">(</span><em class="sig-param">message: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/logger.html#Logger.warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.logger.Logger.warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logging information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> – Message to log</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, logging or write file</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="volume_simulation.logger.NullLogger">
+<em class="property">class </em><code class="sig-prename descclassname">volume_simulation.logger.</code><code class="sig-name descname">NullLogger</code><a class="reference internal" href="_modules/volume_simulation/logger.html#NullLogger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.logger.NullLogger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#volume_simulation.logger.Logger" title="volume_simulation.logger.Logger"><code class="xref py py-class docutils literal notranslate"><span class="pre">volume_simulation.logger.Logger</span></code></a></p>
+<dl class="method">
+<dt id="volume_simulation.logger.NullLogger.debug">
+<code class="sig-name descname">debug</code><span class="sig-paren">(</span><em class="sig-param">message: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/logger.html#NullLogger.debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.logger.NullLogger.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logging information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> – Message to log</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, logging or write file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="volume_simulation.logger.NullLogger.error">
+<code class="sig-name descname">error</code><span class="sig-paren">(</span><em class="sig-param">message: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/logger.html#NullLogger.error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.logger.NullLogger.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logging information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> – Message to log</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, logging or write file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="volume_simulation.logger.NullLogger.info">
+<code class="sig-name descname">info</code><span class="sig-paren">(</span><em class="sig-param">message: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/logger.html#NullLogger.info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.logger.NullLogger.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logging information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> – Message to log</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, logging or write file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="volume_simulation.logger.NullLogger.warning">
+<code class="sig-name descname">warning</code><span class="sig-paren">(</span><em class="sig-param">message: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/volume_simulation/logger.html#NullLogger.warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#volume_simulation.logger.NullLogger.warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logging information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> – Message to log</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None, logging or write file</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">MassAnalysis</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="iphreeqc.html">iphreeqc package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">volume_simulation package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-volume_simulation">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="volume_simulation.engine.html">volume_simulation.engine package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_simulation.systems.html">volume_simulation.systems package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="volume_simulation.visualization.html">volume_simulation.visualization package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-volume_simulation.logger">Classes</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="iphreeqc.phreeqc.data_block.html" title="previous chapter">iphreeqc.phreeqc.data_block package</a></li>
+      <li>Next: <a href="volume_simulation.engine.html" title="next chapter">volume_simulation.engine package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Juan Saez Hidalgo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/volume_simulation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>iphreeqc.importer.system_importer &#8212; MassAnalysis 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for iphreeqc.importer.system_importer</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">system_importer.py: Import a System object</span>
+<span class="sd">and generate a InputTemplate object</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">volume_simulation</span> <span class="kn">import</span> <span class="n">Logger</span><span class="p">,</span> <span class="n">NullLogger</span>
+<span class="kn">from</span> <span class="nn">volume_simulation.systems</span> <span class="kn">import</span> <span class="n">System</span><span class="p">,</span> <span class="n">ExternalFlow</span>
+<span class="kn">from</span> <span class="nn">iphreeqc.phreeqc</span> <span class="kn">import</span> <span class="n">InputTemplate</span>
+<span class="kn">from</span> <span class="nn">iphreeqc.importer</span> <span class="kn">import</span> <span class="n">VolumeImporter</span>
+<span class="kn">from</span> <span class="nn">iphreeqc.phreeqc.data_block</span> <span class="kn">import</span> <span class="n">Header</span><span class="p">,</span> <span class="n">Surface</span>
+
+
+<div class="viewcode-block" id="SystemImporter"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter">[docs]</a><span class="k">class</span> <span class="nc">SystemImporter</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a input template from a System instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">Logger</span> <span class="o">=</span> <span class="n">NullLogger</span><span class="p">(),</span> <span class="n">_toy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">counters</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;solutions&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;mixtures&quot;</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">system</span> <span class="o">=</span> <span class="n">system</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variable_boundary_importer</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__variable_chemical</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">external_importers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dependent_importers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">InputTemplate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_info_to</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">synonyms</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_static_elements</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume_mapper</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_toy</span><span class="p">:</span>
+            <span class="n">solutions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">counters</span><span class="p">[</span><span class="s2">&quot;solutions&quot;</span><span class="p">]</span>
+            <span class="n">mix_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">counters</span><span class="p">[</span><span class="s2">&quot;mixtures&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__external_solutions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">volumes</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">volume_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="p">)]</span> <span class="o">=</span> <span class="n">mix_index</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="p">)]</span> <span class="o">=</span> <span class="n">solutions</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">VolumeImporter</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">solutions</span><span class="p">))</span>
+                <span class="n">solutions</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">mix_index</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="n">system</span><span class="o">.</span><span class="n">variable_boundary_conditions</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">variable_boundary_importer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">VolumeImporter</span><span class="p">(</span><span class="n">boundary</span><span class="p">,</span> <span class="n">solutions</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">boundary</span><span class="p">)]</span> <span class="o">=</span> <span class="n">solutions</span>
+                <span class="n">solutions</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Working with volume </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)))</span>
+
+                <span class="k">def</span> <span class="nf">_generate_volume</span><span class="p">(</span><span class="n">a_system</span><span class="p">:</span> <span class="n">SystemImporter</span><span class="p">,</span>
+                                     <span class="n">a_volume</span><span class="p">:</span> <span class="n">VolumeImporter</span><span class="p">,</span>
+                                     <span class="n">solution_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">a_volume</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">a_system</span><span class="o">.</span><span class="n">volume_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">a_volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)],</span>
+                                          <span class="n">a_system</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="n">solution_index</span>
+                    <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                        <span class="n">a_system</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Adding external control volumes </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">a_system</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">external_mapper</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                            <span class="n">external</span> <span class="o">=</span> <span class="n">a_system</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">external_mapper</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">external</span> <span class="o">=</span> <span class="s2">&quot;ext&quot;</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">sol_external</span> <span class="o">=</span> <span class="n">a_system</span><span class="o">.</span><span class="n">__external_solutions</span><span class="p">[</span><span class="n">external</span><span class="p">]</span>
+                            <span class="n">a_system</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">sol_external</span>
+                        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                            <span class="n">a_system</span><span class="o">.</span><span class="n">__external_solutions</span><span class="p">[</span><span class="n">external</span><span class="p">]</span> <span class="o">=</span> <span class="n">solution_index</span>
+                            <span class="n">a_system</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">solution_index</span>
+                            <span class="n">a_system</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">external_mapper</span><span class="p">[</span><span class="n">external</span><span class="p">]</span> <span class="o">=</span> <span class="n">external</span>
+                            <span class="n">solution_index</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">return</span> <span class="n">_generate_volume</span><span class="p">(</span><span class="n">a_system</span><span class="p">,</span> <span class="n">a_volume</span><span class="p">,</span> <span class="n">solution_index</span><span class="p">)</span>
+
+                <span class="n">solutions</span> <span class="o">=</span> <span class="n">_generate_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">volume</span><span class="p">,</span> <span class="n">solutions</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_boundary_importer</span><span class="p">:</span>
+                <span class="n">boundary</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">ext</span><span class="p">,</span> <span class="n">sol_ext</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__external_solutions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="s2">&quot;-&gt;&quot;</span> <span class="ow">in</span> <span class="n">ext</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">external_importers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">VolumeImporter</span><span class="p">(</span><span class="n">ExternalFlow</span><span class="p">(</span><span class="n">ext</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&gt;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">sol_ext</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">external_importers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">VolumeImporter</span><span class="p">(</span><span class="n">ExternalFlow</span><span class="p">(</span><span class="n">ext</span><span class="p">),</span> <span class="n">sol_ext</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">external_importers</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">external_importers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">counters</span><span class="p">[</span><span class="s2">&quot;solutions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">solutions</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">counters</span><span class="p">[</span><span class="s2">&quot;mixture&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mix_index</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Solutions: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Mixtures: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volume_mapper</span><span class="p">))</span>
+
+<div class="viewcode-block" id="SystemImporter.get_mapper"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.get_mapper">[docs]</a>    <span class="k">def</span> <span class="nf">get_mapper</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a mapper for control volumes in system</span>
+
+<span class="sd">        :return: Dictionary indicating id of solution and control volume relation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_mapper</span></div>
+
+<div class="viewcode-block" id="SystemImporter.add_header"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.add_header">[docs]</a>    <span class="k">def</span> <span class="nf">add_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="n">Header</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a header to template</span>
+
+<span class="sd">        :param header: A header to be added</span>
+<span class="sd">        :return: None, alter self.template_headers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SystemImporter.add_output"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.add_output">[docs]</a>    <span class="k">def</span> <span class="nf">add_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="o">*</span><span class="n">control_volumes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add output to all volumes (or particular one(s))</span>
+
+<span class="sd">        :param output: Name of selected output option to add</span>
+<span class="sd">        :param value: Value of selected output</span>
+<span class="sd">        :param control_volumes: Control volumes to add selected output</span>
+<span class="sd">        :return: None, alter [solution.mixture for solution in self.template.solutions]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">control_volumes</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="n">control_volumes</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="p">)]:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SystemImporter.add_surface_from_data"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.add_surface_from_data">[docs]</a>    <span class="k">def</span> <span class="nf">add_surface_from_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">to_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add surface to input template from data</span>
+
+<span class="sd">        :param data: Two options:</span>
+<span class="sd">            Dictionary: if to_all=True, add surface to all solutions with data on this dict</span>
+<span class="sd">            Dict of dict: In case to_all=False, this is a dictionary containing control:</span>
+<span class="sd">                key: Control volume name</span>
+<span class="sd">                value: data as described before</span>
+<span class="sd">        :param to_all: Add to all control volume</span>
+<span class="sd">        :return: None, alter self.template</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">adding_surface</span><span class="p">(</span><span class="n">a_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">building_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">arbitrary_name</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">a_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">building_kwargs</span><span class="p">[</span><span class="n">arbitrary_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span>
+            <span class="k">return</span> <span class="n">building_kwargs</span>
+
+        <span class="k">if</span> <span class="n">to_all</span><span class="p">:</span>
+            <span class="n">to_enter</span> <span class="o">=</span> <span class="n">adding_surface</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">:</span>
+                <span class="n">volume</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">Surface</span><span class="p">(</span><span class="o">**</span><span class="n">to_enter</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">particular_data</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">to_enter</span> <span class="o">=</span> <span class="n">adding_surface</span><span class="p">(</span><span class="n">particular_data</span><span class="p">)</span>
+                <span class="n">volumes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">vol</span><span class="o">.</span><span class="n">volume</span><span class="p">)</span> <span class="k">for</span> <span class="n">vol</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">[</span><span class="n">volumes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span><span class="o">.</span><span class="n">add_surface</span><span class="p">(</span><span class="n">Surface</span><span class="p">(</span><span class="o">**</span><span class="n">to_enter</span><span class="p">))</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SystemImporter.add_elements"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.add_elements">[docs]</a>    <span class="k">def</span> <span class="nf">add_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add elements for folder (in path). Search for file with name</span>
+<span class="sd">        on mapper</span>
+
+<span class="sd">        :param path: Path to file or folder</span>
+<span class="sd">        :param mapper: A dictionary indicating where file is</span>
+<span class="sd">        :return: None, alter self.volume_importers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">mapper</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_boundary_importer</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">file</span> <span class="o">=</span> <span class="n">mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="p">)]</span>
+                    <span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">add_elements</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">:</span>
+                <span class="n">file</span> <span class="o">=</span> <span class="n">mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)]</span>
+                <span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">add_elements</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">external_importers</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">file</span> <span class="o">=</span> <span class="n">mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">external_importers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">volume</span><span class="p">)]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">external_importers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">add_elements</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+                <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                    <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_boundary_importer</span><span class="p">:</span>
+                <span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">add_elements</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">:</span>
+                <span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">add_elements</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">external</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">external_importers</span><span class="p">:</span>
+                <span class="n">external</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">add_elements</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_boundary_importer</span><span class="p">:</span>
+            <span class="n">boundary</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">external</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">external_importers</span><span class="p">:</span>
+            <span class="n">external</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">:</span>
+            <span class="n">volume</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volume_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SystemImporter.add_variable_condition"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.add_variable_condition">[docs]</a>    <span class="k">def</span> <span class="nf">add_variable_condition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add variable chemical attributes with a pandas DataFrame</span>
+<span class="sd">        Chemical conditions over time are taken from file</span>
+
+<span class="sd">        :param path: Path to file or folder</span>
+<span class="sd">        :param mapper: A dictionary indicating where file is</span>
+<span class="sd">        :return: None, alter self.__tailings_chemical</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">mapper</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_boundary_importer</span><span class="p">:</span>
+                <span class="n">file</span> <span class="o">=</span> <span class="n">mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="p">)]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__variable_chemical</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_boundary_importer</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__variable_chemical</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_boundary_importer</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__variable_chemical</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__variable_chemical</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="p">)]</span>
+                <span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">Days</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Days</span><span class="p">)]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Days&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">boundary</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SystemImporter.add_static_elements"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.add_static_elements">[docs]</a>    <span class="k">def</span> <span class="nf">add_static_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add element to all (or a list of) control volumes that are not going to</span>
+<span class="sd">        change over time</span>
+
+<span class="sd">        :param parameter: Parameter name</span>
+<span class="sd">        :param value: Value</span>
+<span class="sd">        :return: None, alter self._static_elements</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_static_elements</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SystemImporter.add_additional_info"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.add_additional_info">[docs]</a>    <span class="k">def</span> <span class="nf">add_additional_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add additional info to all (or a list of) control volumes elements</span>
+
+<span class="sd">        :param parameter: Parameter name</span>
+<span class="sd">        :param value: Value</span>
+<span class="sd">        :return: None, alter self._add_info_to</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_info_to</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SystemImporter.element_as"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.element_as">[docs]</a>    <span class="k">def</span> <span class="nf">element_as</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">synonym</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add &quot;as &lt;value&gt;&quot; to all solutions</span>
+
+<span class="sd">        :param element: Element to add synonym</span>
+<span class="sd">        :param synonym: Synonym</span>
+<span class="sd">        :return: None, alter self.synonyms</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">synonyms</span><span class="p">[</span><span class="n">element</span><span class="p">]</span> <span class="o">=</span> <span class="n">synonym</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SystemImporter.add_equilibrium_phases"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.add_equilibrium_phases">[docs]</a>    <span class="k">def</span> <span class="nf">add_equilibrium_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add equilibrium phases for file (in path)</span>
+
+<span class="sd">        :param path: Path to file or folder</span>
+<span class="sd">        :param mapper: A dictionary indicating where file is</span>
+<span class="sd">        :return: None, alter self.volume_importers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">mapper</span><span class="p">:</span>
+                <span class="n">file</span> <span class="o">=</span> <span class="n">mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)]</span>
+                <span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">add_equilibrium_phases</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">add_equilibrium_phases</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="n">volume</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volume_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SystemImporter.add_kinetic_phases"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.add_kinetic_phases">[docs]</a>    <span class="k">def</span> <span class="nf">add_kinetic_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mapper</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add kinetic phases for file (in path)</span>
+
+<span class="sd">        :param path: Path to file or folder</span>
+<span class="sd">        :param mapper: A dictionary indicating where file is</span>
+<span class="sd">        :return: None, alter self.volume_importers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">mapper</span><span class="p">:</span>
+                <span class="n">file</span> <span class="o">=</span> <span class="n">mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)]</span>
+                <span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">add_kinetic_phases</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">add_kinetic_phases</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="n">volume</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volume_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SystemImporter.add_saturation_index"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.add_saturation_index">[docs]</a>    <span class="k">def</span> <span class="nf">add_saturation_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">saturation_index</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">*</span><span class="n">control_volumes</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add saturation index to equilibrium phases</span>
+
+<span class="sd">        :param parameter: Parameter to have si (different from 0)</span>
+<span class="sd">        :param saturation_index: A valid SI</span>
+<span class="sd">        :param control_volumes: (Optional) specifies control volumes to add Saturation</span>
+<span class="sd">            Index different from zero</span>
+<span class="sd">        :return: None, alter self.volume_importers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">control_volumes</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">:</span>
+                <span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">add_saturation_index</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">saturation_index</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)</span> <span class="ow">in</span> <span class="n">control_volumes</span><span class="p">:</span>
+                    <span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">add_saturation_index</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">saturation_index</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SystemImporter.generate"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.generate">[docs]</a>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate the InputTemplate</span>
+
+<span class="sd">        :return: None, alter self.template</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">solutions</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)]]</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">add_solution</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">solution</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)])</span>
+        <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_boundary_importer</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="p">)]]</span> <span class="o">=</span> <span class="n">boundary</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">add_solution</span><span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">solution</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="p">)])</span>
+        <span class="k">for</span> <span class="n">external</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">external_importers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">external</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">external</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">add_solution</span><span class="p">(</span><span class="n">external</span><span class="o">.</span><span class="n">solution</span><span class="p">,</span> <span class="n">external</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">solutions</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_info_to</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">solutions</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">add_info_to</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">synonyms</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">solutions</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">element_as</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_elements</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">solutions</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">update_parameter</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="SystemImporter.step"><a class="viewcode-back" href="../../../iphreeqc.importer.html#iphreeqc.importer.system_importer.SystemImporter.step">[docs]</a>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">update</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a step on system</span>
+
+<span class="sd">        :param delta_time: Time window size, in days</span>
+<span class="sd">        :param update: A pandas DataFrame with concentration results</span>
+<span class="sd">            of previous iteration. Index must be the assigned name</span>
+<span class="sd">            of control volumes</span>
+<span class="sd">        :return: None, alter self.system</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">step_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">delta_time</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_importers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">update</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">update</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)])</span>
+                <span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">equilibrium_phases</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">update</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)])</span>
+                <span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">kinetic_phases</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">update</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)])</span>
+            <span class="n">volume</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volume_mapper</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">volume</span><span class="p">)],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">)</span>
+            <span class="n">volume</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">step_result</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_boundary_importer</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__variable_chemical</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__variable_chemical</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="p">)]</span>
+                <span class="n">actual_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">volumes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">actual_time</span>
+                <span class="n">boundary</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">actual_time</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Days&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">elem</span><span class="p">])</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]],</span>
+                        <span class="n">index</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="n">boundary</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solution_mapper</span><span class="p">)</span>
+        <span class="k">return</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">MassAnalysis</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../iphreeqc.html">iphreeqc package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../volume_simulation.html">volume_simulation package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Juan Saez Hidalgo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>volume_simulation.engine.basic_engine &#8212; MassAnalysis 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for volume_simulation.engine.basic_engine</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;basic_engine.py: A basic engine to simulate an hydraulic system&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">volume_simulation</span> <span class="kn">import</span> <span class="n">Logger</span>
+<span class="kn">from</span> <span class="nn">volume_simulation.engine</span> <span class="kn">import</span> <span class="n">Engine</span>
+<span class="kn">from</span> <span class="nn">volume_simulation.systems</span> <span class="kn">import</span> <span class="n">System</span>
+<span class="kn">from</span> <span class="nn">volume_simulation.systems.control_volumes</span> <span class="kn">import</span> <span class="n">ControlVolume</span><span class="p">,</span> <span class="n">Flow</span>
+
+
+<div class="viewcode-block" id="BasicEngine"><a class="viewcode-back" href="../../../volume_simulation.engine.html#volume_simulation.engine.basic_engine.BasicEngine">[docs]</a><span class="k">class</span> <span class="nc">BasicEngine</span><span class="p">(</span><span class="n">Engine</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Basic Engine simulation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flows</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">init_values</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">variable_boundary_conditions</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">constant_boundary_conditions</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">constant_boundary_mapper</span><span class="p">:</span> <span class="nb">dict</span> <span class="ow">or</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="o">*</span><span class="n">control_volumes</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">log_on_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span>
+                 <span class="n">logger</span><span class="p">:</span> <span class="n">Logger</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">variable_boundary_conditions</span><span class="o">=</span><span class="n">variable_boundary_conditions</span><span class="p">,</span>
+                         <span class="n">constant_boundary_conditions</span><span class="o">=</span><span class="n">constant_boundary_conditions</span><span class="p">,</span>
+                         <span class="n">constant_boundary_mapper</span><span class="o">=</span><span class="n">constant_boundary_mapper</span><span class="p">,</span>
+                         <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">,</span>
+                         <span class="n">log_on_file</span><span class="o">=</span><span class="n">log_on_file</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">logger</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span>
+
+        <span class="k">def</span> <span class="nf">import_volumes</span><span class="p">(</span><span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Imports volumes from path</span>
+
+<span class="sd">            :param engine: Self</span>
+<span class="sd">            :return: List of generated volumes</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">volume_values</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">init_values</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">control_volumes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">volumes_to_use</span> <span class="o">=</span> <span class="n">control_volumes</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">volumes_to_use</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">init_values</span><span class="p">),</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+                <span class="n">volumes_to_use</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">volumes_to_use</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">imported</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="n">volumes_to_use</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">engine</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">add_volume</span><span class="p">(</span>
+                        <span class="n">ControlVolume</span><span class="p">(</span>
+                            <span class="n">volume_values</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">volume</span><span class="p">],</span> <span class="n">volume</span><span class="p">,</span>
+                            <span class="n">max_volume</span><span class="o">=</span><span class="n">volume_values</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">volume</span><span class="p">],</span>
+                            <span class="n">min_volume</span><span class="o">=</span><span class="n">volume_values</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">volume</span><span class="p">],</span>
+                            <span class="n">logger</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">logger</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">imported</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">engine</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                    <span class="k">pass</span>
+            <span class="k">return</span> <span class="n">imported</span>
+
+        <span class="k">def</span> <span class="nf">import_flows</span><span class="p">(</span><span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Imports flows from path</span>
+
+<span class="sd">            :param engine: Self</span>
+<span class="sd">            :return: None, modify self.system</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">path_flow</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">flows</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">flow</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path_flow</span><span class="p">):</span>
+                <span class="n">vol1</span><span class="p">,</span> <span class="n">vol2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">vol1</span><span class="p">,</span> <span class="n">vol2</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">engine</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">add_flow</span><span class="p">(</span><span class="n">Flow</span><span class="p">(</span><span class="n">path_flow</span><span class="p">,</span> <span class="p">(</span><span class="n">vol1</span><span class="p">,</span> <span class="n">vol2</span><span class="p">),</span> <span class="n">logger</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="p">))</span>
+                <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">engine</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">engine</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s2">&quot;Not a valid path&quot;</span><span class="p">)</span>
+        <span class="n">volumes</span> <span class="o">=</span> <span class="n">import_volumes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">list_of_volume</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="c1"># Showing volume used</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">volumes</span><span class="p">)</span> <span class="o">//</span> <span class="mi">7</span><span class="p">):</span>
+            <span class="n">list_of_volume</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">,&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">volumes</span><span class="p">[</span><span class="n">index</span> <span class="o">*</span> <span class="mi">7</span><span class="p">:(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">7</span><span class="p">]</span>
+            <span class="p">)))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">volumes</span><span class="p">)</span> <span class="o">%</span> <span class="mi">7</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">list_of_volume</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">volumes</span><span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">7</span><span class="p">:]</span>
+            <span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Control Volume models to use:</span><span class="se">\n\t</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">list_of_volume</span><span class="p">)))</span>
+        <span class="n">import_flows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">assign_flows</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="BasicEngine.run_simulation"><a class="viewcode-back" href="../../../volume_simulation.engine.html#volume_simulation.engine.basic_engine.BasicEngine.run_simulation">[docs]</a>    <span class="k">def</span> <span class="nf">run_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">delta_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run simulation, put output in a csv file</span>
+
+<span class="sd">        :param iterations: Number of iterations</span>
+<span class="sd">        :param delta_time: Size of time window</span>
+<span class="sd">        :param kwargs:</span>
+<span class="sd">            See below</span>
+<span class="sd">        :keyword mix_ratios: Whether to obtain or not mix ratios</span>
+<span class="sd">        :keyword path_to_export: Directory for generate &quot;results&quot; folder (default = here)</span>
+<span class="sd">        :return: None, generate a file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">calculation</span><span class="p">(</span><span class="n">engine</span><span class="p">:</span> <span class="n">Engine</span><span class="p">,</span> <span class="n">system</span><span class="p">:</span> <span class="n">System</span><span class="p">,</span> <span class="n">a_volume</span><span class="p">:</span> <span class="n">ControlVolume</span><span class="p">,</span> <span class="n">system_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Inner method that do a computation</span>
+
+<span class="sd">            :param engine: self</span>
+<span class="sd">            :param system: Self.system</span>
+<span class="sd">            :param a_volume: Volume to be computed</span>
+<span class="sd">            :param system_time: Current time of system,</span>
+<span class="sd">            :return: Matrix with volumes per time</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">/</span><span class="si">{vol}</span><span class="s2">/</span><span class="si">{vol}</span><span class="s2">_volumes.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">vol</span><span class="o">=</span><span class="n">a_volume</span><span class="p">),</span> <span class="s2">&quot;ab&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">p_output</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">,</span> <span class="n">ratios_out</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">a_volume</span><span class="p">),</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">delta_time</span><span class="p">,</span> <span class="n">mix_ratios</span><span class="p">)</span>
+                <span class="n">engine</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Writing file </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">/</span><span class="si">{vol}</span><span class="s2">/</span><span class="si">{vol}</span><span class="s2">_volumes.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">vol</span><span class="o">=</span><span class="n">a_volume</span><span class="p">)</span>
+                <span class="p">))</span>
+                <span class="n">time_vector</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">system_time</span><span class="p">,</span> <span class="n">a_volume</span><span class="o">.</span><span class="n">actual_time</span> <span class="o">+</span> <span class="n">delta_time</span><span class="p">,</span> <span class="n">delta_time</span><span class="p">)]</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span>
+                    <span class="n">p_output</span><span class="p">,</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_vector</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span>
+                    <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
+                    <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">fmt</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%.14f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%.14f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%.14f</span><span class="s2">&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">mix_ratios</span><span class="p">:</span>
+                <span class="n">engine</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Writing file </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">/</span><span class="si">{vol}</span><span class="s2">/</span><span class="si">{vol}</span><span class="s2">_mix_ratio.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">vol</span><span class="o">=</span><span class="n">a_volume</span><span class="p">)</span>
+                <span class="p">))</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">/</span><span class="si">{vol}</span><span class="s2">/</span><span class="si">{vol}</span><span class="s2">_mix_ratio.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">vol</span><span class="o">=</span><span class="n">a_volume</span><span class="p">),</span> <span class="s2">&quot;ab&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">p_output</span><span class="p">:</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span>
+                        <span class="n">p_output</span><span class="p">,</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_vector</span><span class="p">,</span> <span class="n">ratios_out</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span>
+                        <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
+                        <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">fmt</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%.14f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%.14f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%.14f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%.14f</span><span class="s2">&quot;</span><span class="p">]</span>
+                    <span class="p">)</span>
+                <span class="k">for</span> <span class="n">flow</span> <span class="ow">in</span> <span class="n">a_volume</span><span class="o">.</span><span class="n">flows</span><span class="p">:</span>
+                    <span class="n">flow</span><span class="o">.</span><span class="n">calculate_mix_ratio</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">system_time</span><span class="p">,</span> <span class="n">delta_time</span><span class="p">,</span>
+                                             <span class="n">save_to_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">append_to_file</span><span class="o">=</span><span class="n">system_time</span> <span class="o">&gt;=</span> <span class="n">delta_time</span><span class="p">,</span>
+                                             <span class="n">path_to_file</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">_mix_ratio.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">a_volume</span><span class="p">,</span> <span class="n">flow</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="n">mix_ratios</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mix_ratios&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;path_to_export&quot;</span><span class="p">,</span> <span class="s2">&quot;results&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting calculation&quot;</span><span class="p">)</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">volumes</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">volume</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">/</span><span class="si">{vol}</span><span class="s2">/</span><span class="si">{vol}</span><span class="s2">_volumes.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">vol</span><span class="o">=</span><span class="n">volume</span><span class="p">),</span>
+                      <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+                <span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Days,Volume (m3),Volume in (m3),Volume out (m3)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mix_ratios</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">/</span><span class="si">{vol}</span><span class="s2">/</span><span class="si">{vol}</span><span class="s2">_mix_ratio.csv&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">vol</span><span class="o">=</span><span class="n">volume</span><span class="p">),</span>
+                          <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+                    <span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Days,Mix Ratio,Sum Mix Ratios In,Sum Mix Ratios Out,Sum Mix Ratios</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">current_time</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">volume</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">volumes</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">calculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="p">,</span> <span class="n">volume</span><span class="p">,</span> <span class="n">current_time</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Not more flow registered to go on&quot;</span><span class="p">)</span>
+                <span class="k">break</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Calculation completed&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">show_time</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">start</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">MassAnalysis</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../iphreeqc.html">iphreeqc package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../volume_simulation.html">volume_simulation package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Juan Saez Hidalgo.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
