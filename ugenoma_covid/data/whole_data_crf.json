@@ -1,0 +1,623 @@
+{
+  "Personal": {
+    "Nacionalidad": {
+      "Chile": 194,
+      "Venezuela": 4,
+      "Perú": 4,
+      "No información": 2,
+      "NaN": 42,
+      "Bolivia": 1,
+      "Otro {otra_nacionalidad}": 1,
+      "Republica Dominicana": 1,
+      "Ecuador": 1
+    },
+    "Edad": {
+      "Disponibles": 250,
+      "NA": 75
+    },
+    "Región": {
+      "Región XIII (Metropolitana)": 75,
+      "Región III (Atacama)": 75,
+      "Región XVI (Ñuble)": 1,
+      "No información": 1,
+      "Región VIII (Bío-Bío)": 22,
+      "Región XV (Arica y Parinacota)": 30,
+      "Región XIV (Los Ríos)": 3,
+      "Región XII (Magallanes)": 12,
+      "NaN": 28,
+      "Región IV (Coquimbo)": 3
+    },
+    "Comuna": {
+      "Estación Central": 7,
+      "Santiago": 9,
+      "Quilicura": 4,
+      "Conchalí": 12,
+      "Ñuñoa": 2,
+      "Recoleta": 5,
+      "La Florida": 2,
+      "Huechuraba": 4,
+      "Cerro Navia": 1,
+      "Maipú": 2,
+      "Tierra Amarilla": 2,
+      "Chillán": 1,
+      "NaN": 38,
+      "Pudahuel": 3,
+      "Renca": 2,
+      "No información": 8,
+      "San Bernardo": 2,
+      "Providencia": 1,
+      "No Aplica": 1,
+      "La Cisterna": 2,
+      "Cerrillos": 1,
+      "Independencia": 4,
+      "Puente Alto": 1,
+      "San Joaquín": 1,
+      "Lo Prado": 1,
+      "Las Condes": 1,
+      "Contulmo": 1,
+      "Penco": 1,
+      "Hualpén": 14,
+      "Talcahuano": 6,
+      "Arica": 30,
+      "Valdivia": 2,
+      "Máfil": 1,
+      "Punta Arenas": 1,
+      "Porvenir": 1,
+      "Copiapó": 73,
+      "La Serena": 2,
+      "Coquimbo": 1
+    },
+    "Sexo": {
+      "Masculino": 130,
+      "Femenino": 119,
+      "NaN": 1
+    },
+    "Peso": {
+      "Disponibles": 208,
+      "NA": 66,
+      "No Sabe/No Responde": 42
+    },
+    "Altura": {
+      "Disponibles": 200,
+      "NA": 69,
+      "No Sabe/No Responde": 50
+    },
+    "Grupo Sanguíneo": {
+      "A": 23,
+      "NaN": 85,
+      "No información": 59,
+      "B": 11,
+      "O": 64,
+      "No respondió": 1,
+      "AB": 7
+    },
+    "Grupo Rh": {
+      "Rh +": 100,
+      "NaN": 81,
+      "No información": 59,
+      "Rh -": 9,
+      "No respondió": 1
+    }
+  },
+  "Nacimiento": {
+    "País de Nacimiento": {
+      "Chile": 194,
+      "Venezuela": 4,
+      "Perú": 4,
+      "No información": 2,
+      "NaN": 42,
+      "Bolivia": 1,
+      "Otro {otra_nacionalidad}": 1,
+      "Republica Dominicana": 1,
+      "Ecuador": 1
+    }
+  },
+  "Socioeconómico": {
+    "Nivel Educacional": {
+      "No Sabe / No determinado": 76,
+      "NaN": 56,
+      "Medio completo": 21,
+      "Técnico profesional completo": 19,
+      "Universitario completo": 37,
+      "Básico completo": 8,
+      "Medio incompleto": 7,
+      "Básico incompleto": 3,
+      "No información": 10,
+      "Analfabeto": 2,
+      "Universitario incompleto": 5,
+      "Ninguno": 6
+    },
+    "Situación ocupacional": {
+      "No Sabe / No determinado": 55,
+      "NaN": 47,
+      "Activo": 98,
+      "Inactivo": 37,
+      "Cesante": 11,
+      "No información": 2
+    },
+    "Tipo ocupación activa": {
+      "NaN": 152,
+      "No información": 4,
+      "Empleado": 75,
+      "Trabajador por cuenta propia": 10,
+      "Obrero": 1,
+      "Empleador o Patrón": 8
+    },
+    "Tipo ocupación inactiva": {
+      "NaN": 213,
+      "Pensionado/a o Jubilado/a": 18,
+      "Labores de casa": 11,
+      "No sabe": 1,
+      "Estudiante": 6,
+      "Asesorias independientes.": 1
+    },
+    "FONASA": {
+      "B": 62,
+      "D": 31,
+      "NaN": 121,
+      "No información": 11,
+      "A": 12,
+      "C": 13
+    }
+  },
+  "Etnicidad": {
+    "Etnicidad": {
+      "Ninguna": 119,
+      "No información": 20,
+      "No sabe / No determinado": 51,
+      "NaN": 44,
+      "Atacameño": 1,
+      "Alacalufe (kawésqar)": 1,
+      "Aimara": 3,
+      "Mapuche": 2,
+      "No respondió": 2,
+      "Diaguita": 5,
+      "Colla": 2
+    }
+  },
+  "Hábitos": {
+    "Consumo Tabaco": {
+      "Seleccionado": 65,
+      "NaN": 44,
+      "No seleccionado": 134,
+      "No información": 7
+    },
+    "Periodicidad consumo": {
+      "Suspendido": 32,
+      "NaN": 186,
+      "No determinado": 1,
+      "Frecuente (uno o más al día)": 20,
+      "Ocasional (menos de un cigarrillo al día)": 10,
+      "No información": 1
+    },
+    "Cigarros diarios": {
+      "No sabe / No determinado": 5,
+      "NaN": 186,
+      "Entre 1 y 10": 23,
+      "Entre 11 y 20": 7,
+      "Menos de 1 al día (menos de 7 a la semana)": 23,
+      "No información": 3,
+      "No Aplica": 1,
+      "31 o más": 1,
+      "Entre 21 y 30": 1
+    },
+    "Más de 100 Cigarros": {
+      "No Sabe / No determinado": 8,
+      "NaN": 186,
+      "Seleccionado": 48,
+      "No información": 1,
+      "No seleccionado": 7
+    },
+    "Consumo alcohol": {
+      "Suspendido": 3,
+      "NaN": 44,
+      "No seleccionado": 105,
+      "No información": 9,
+      "Seleccionado": 89
+    },
+    "Frecuencia consumo": {
+      "NaN": 162,
+      "Una vez al mes o menos": 38,
+      "Cuatro o más veces a la semana": 3,
+      "No Sabe / No determinado": 7,
+      "Dos a cuatro veces al mes": 31,
+      "Dos o tres veces a la semana": 9
+    },
+    "Marihuana": {
+      "false": 237,
+      "true": 13
+    },
+    "Cocaína": {
+      "false": 247,
+      "true": 3
+    },
+    "Pasta base": {
+      "false": 248,
+      "true": 2
+    },
+    "Heroína": {
+      "false": 250
+    },
+    "Alucinógenos": {
+      "false": 247,
+      "true": 3
+    },
+    "Alguna Otra Droga": {
+      "false": 250
+    },
+    "Droga NS/NR": {
+      "false": 250
+    }
+  },
+  "Síntomas": {
+    "Fiebre": {
+      "false": 174,
+      "true": 76
+    },
+    "Escalofríos": {
+      "false": 213,
+      "true": 37
+    },
+    "Tos seca persistente": {
+      "false": 163,
+      "true": 87
+    },
+    "Tos nueva productiva": {
+      "false": 220,
+      "true": 30
+    },
+    "Disnea": {
+      "false": 139,
+      "true": 111
+    },
+    "Vómitos": {
+      "false": 240,
+      "true": 10
+    },
+    "Diarrea": {
+      "false": 219,
+      "true": 31
+    },
+    "Anosmia": {
+      "false": 200,
+      "true": 50
+    },
+    "Ageusia": {
+      "false": 204,
+      "true": 46
+    },
+    "Opresión en el pecho": {
+      "false": 233,
+      "true": 17
+    },
+    "Dolor de garganta": {
+      "false": 233,
+      "true": 17
+    },
+    "Cansancio": {
+      "false": 186,
+      "true": 64
+    },
+    "Incapacidad de moverse": {
+      "false": 239,
+      "true": 11
+    },
+    "Dolor abdominal": {
+      "false": 230,
+      "true": 20
+    },
+    "Cefalea": {
+      "false": 159,
+      "true": 91
+    },
+    "Mareos": {
+      "false": 232,
+      "true": 18
+    },
+    "Dolor en la espalda baja": {
+      "false": 211,
+      "true": 39
+    },
+    "Mialgia": {
+      "false": 171,
+      "true": 79
+    },
+    "Dolor al respirar": {
+      "false": 234,
+      "true": 16
+    },
+    "Dificultad para respirar": {
+      "true": 12,
+      "false": 238
+    },
+    "Entumecimiento": {
+      "false": 233,
+      "true": 17
+    },
+    "Decaimiento": {
+      "false": 205,
+      "true": 45
+    },
+    "Congestión nasal": {
+      "false": 222,
+      "true": 28
+    },
+    "Ojos rojos": {
+      "false": 235,
+      "true": 15
+    },
+    "Eritema": {
+      "false": 243,
+      "true": 7
+    },
+    "Decoloración de la piel": {
+      "false": 249,
+      "true": 1
+    },
+    "Erupciones en boca": {
+      "false": 244,
+      "true": 6
+    },
+    "Erupciones cutáneas": {
+      "false": 246,
+      "true": 4
+    },
+    "Otros Síntomas": {
+      "false": 228,
+      "true": 22
+    }
+  },
+  "Hospitalización": {
+    "Hospitalización": {
+      "Seleccionado": 250
+    },
+    "Unidad Hospitalaria": {
+      "UCI": 18,
+      "Sala común": 186,
+      "UTI": 2,
+      "Medicina Interna": 28,
+      "Otros servicios de hospitalización": 1,
+      "UCC": 1,
+      "Intermedio COVID": 1,
+      "UGA": 1,
+      "Sala COVID": 1,
+      "Pabellón": 3,
+      "SERVICIO MEDICO QUIRURGICO": 1,
+      "Medicina": 1,
+      "UTI COVID": 1,
+      "Médico quirúrgico": 1,
+      "No Aplica": 2,
+      "No información": 1,
+      "Hematologia": 1
+    },
+    "Respiración asistida": {
+      "No": 240,
+      "Si, respiración mecánica (con intubación)": 10
+    }
+  },
+  "Comorbilidades": {
+    "Diabetes": {
+      "Seleccionado": 56,
+      "No seleccionado": 194
+    },
+    "Aterosclerosis coronaria": {
+      "No seleccionado": 245,
+      "Seleccionado": 5
+    },
+    "Hipertensión": {
+      "Seleccionado": 93,
+      "No seleccionado": 157
+    },
+    "Accidente vascular": {
+      "No seleccionado": 244,
+      "Seleccionado": 6
+    },
+    "Problema al corazón": {
+      "No seleccionado": 236,
+      "Seleccionado": 14
+    },
+    "Diálisis": {
+      "No seleccionado": 243,
+      "Seleccionado": 7
+    },
+    "Hepatitis": {
+      "No seleccionado": 248,
+      "Seleccionado": 2
+    },
+    "Anemia": {
+      "No seleccionado": 248,
+      "Seleccionado": 2
+    },
+    "Asma": {
+      "No seleccionado": 232,
+      "Seleccionado": 18
+    },
+    "Fibrosis quística": {
+      "No seleccionado": 250
+    },
+    "Fibrosis pulmonar": {
+      "No seleccionado": 250
+    },
+    "Enfisema": {
+      "No seleccionado": 250
+    },
+    "Afección Pulmonar": {
+      "No seleccionado": 244,
+      "Seleccionado": 6
+    },
+    "Cáncer": {
+      "No seleccionado": 243,
+      "Seleccionado": 7
+    },
+    "Condición que afecta el cerebro": {
+      "No seleccionado": 250
+    },
+    "VIH": {
+      "No seleccionado": 248,
+      "Seleccionado": 2
+    },
+    "Tuberculosis": {
+      "No seleccionado": 250
+    },
+    "Sistema inmunitario debilitado": {
+      "No seleccionado": 247,
+      "Seleccionado": 3
+    },
+    "Problemas de salud mental": {
+      "No seleccionado": 244,
+      "Seleccionado": 6
+    },
+    "Colesterol elevado": {
+      "No seleccionado": 240,
+      "Seleccionado": 10
+    },
+    "Obesidad": {
+      "No seleccionado": 209,
+      "Seleccionado": 41
+    },
+    "Colitis ulcerosa o enfermedad de Crohn": {
+      "No seleccionado": 249,
+      "Seleccionado": 1
+    },
+    "Artritis reumatoide": {
+      "No seleccionado": 245,
+      "Seleccionado": 5
+    },
+    "Lupus": {
+      "No seleccionado": 248,
+      "Seleccionado": 2
+    },
+    "Otras enfermedades reumatoides": {
+      "No seleccionado": 248,
+      "Seleccionado": 2
+    },
+    "Otras enfermedades crónicas": {
+      "No seleccionado": 217,
+      "Seleccionado": 33
+    }
+  },
+  "Cáncer": {
+    "Cáncer de colon y recto": {
+      "false": 249,
+      "true": 1
+    },
+    "Cáncer de endometrio": {
+      "false": 250
+    },
+    "Cáncer de Hígado": {
+      "false": 250
+    },
+    "Leucemia": {
+      "false": 250
+    },
+    "Linfoma no Hodgkin": {
+      "false": 250
+    },
+    "Melanoma": {
+      "false": 250
+    },
+    "Cáncer de páncreas": {
+      "false": 250
+    },
+    "Cáncer de próstata": {
+      "false": 250
+    },
+    "Cáncer de pulmón": {
+      "false": 248,
+      "true": 2
+    },
+    "Cáncer de riñón": {
+      "false": 250
+    },
+    "Cáncer de mama": {
+      "false": 250
+    },
+    "Cáncer de tiroides": {
+      "false": 248,
+      "true": 2
+    },
+    "Cáncer de vejiga": {
+      "false": 250
+    },
+    "Otro Tipo de Cáncer": {
+      "false": 248,
+      "true": 2
+    },
+    "Cáncer de vesícula": {
+      "false": 250
+    },
+    "Cáncer NS/NR": {
+      "false": 250
+    }
+  },
+  "Actividades": {},
+  "Drogas": {
+    "Antidiabético": {
+      "true": 35,
+      "false": 215
+    },
+    "Anti-TB": {
+      "false": 250
+    },
+    "Antihipertensivo": {
+      "true": 66,
+      "false": 184
+    },
+    "Aspirina o clopidogrel": {
+      "true": 24,
+      "false": 226
+    },
+    "Estatina": {
+      "false": 232,
+      "true": 18
+    },
+    "Analgésicos": {
+      "false": 241,
+      "true": 9
+    },
+    "Medicación para la tos": {
+      "false": 250
+    },
+    "Inhalador": {
+      "false": 237,
+      "true": 13
+    },
+    "Anticancerígeno": {
+      "false": 246,
+      "true": 4
+    },
+    "Antimaláricos": {
+      "false": 248,
+      "true": 2
+    },
+    "Antivirales": {
+      "false": 250
+    },
+    "Vitaminas": {
+      "false": 247,
+      "true": 3
+    },
+    "Hierbas medicinales": {
+      "false": 250
+    },
+    "Ninguna droga": {
+      "false": 250
+    },
+    "Otro Medicamento": {
+      "false": 214,
+      "true": 36
+    },
+    "Medicamento NS/NR": {
+      "false": 250
+    }
+  },
+  "Atención crónica": {},
+  "Índice de Riesgo": {
+    "Índice de Riesgo": {
+      "Hosp. Grave": 16,
+      "Hosp.": 214,
+      "Crítico": 10,
+      "Letal": 10
+    }
+  }
+}

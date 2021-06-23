@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Icicle Variables</title>
+    <script src="./js/d3.js"></script>
+    <style>
+        h1 {
+            font-size: medium;
+        }
+    </style>
+</head>
+<body>
+    <div id="title_selector">
+        <div id="title_box" style="float: left">
+            <h1 id="title"></h1>
+        </div>
+        <div id="selector" style="text-align: end; float: right">
+            <button id="encuesta" onclick="setEncu()">Encuesta</button>
+            <button id="crf" onclick="setCRF()">CRF</button>
+        </div>
+    </div>
+    <div id="chart"></div>
+    <script>
+        /***************************************************************************************
+         * Adapted from code by
+         *    Author: Bostock, Mike
+         *    Date: 2018
+         *    Availability: https://observablehq.com/@d3/zoomable-icicle
+         *    Licence: ISC License
+         *    Permission to use, copy, modify, and/or distribute this software for any
+         *    purpose with or without fee is hereby granted, provided that the above
+         *    copyright notice and this permission notice appear in all copies.
+         *
+         *    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+         *    WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+         *    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+         *    ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+         *    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+         *    ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+         *    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+         * Copyright 2018–2020 Observable, Inc.
+         ***************************************************************************************/
+    const height = 0.5 * window.screen.height;
+    const width = 0.7 * window.screen.width;
+    const format = d3.format(",d");
+    let dataset = "redcap";
+    const titles = {
+        "redcap": "Encuesta",
+        "crf": "CRF",
+    }
+
+    generateChart();
+
+    function formatJson(data){
+        let out = [];
+        for (let a in data) {
+            let child = {"name": a};
+            if (typeof data[a] === "number"){
+                child["value"] = data[a];
+            } else {
+                child["children"] = formatJson(data[a]);
+                child["value"] = formatJson(data[a]).length
+            }
+            out.push(child)
+        }
+        return out;
+    }
+
+    function setEncu(){
+        dataset = "redcap";
+        generateChart();
+    }
+    function setCRF(){
+        dataset = "crf";
+        generateChart();
+    }
+
+    function generateChart(){
+        d3.select("#chart_svg").remove();
+        const title = document.getElementById("title")
+        title.innerHTML = `Variables encontradas en el dataset de ${titles[dataset]}`
+
+        // read json data
+        let file_name = `./data/whole_data_${dataset}.json`
+        console.log(`Reading file: ${file_name}`);
+        d3.json(file_name).then(raw_data => {
+            console.debug(raw_data);
+            let data = {
+                "name": "Categorías",
+                "children": formatJson(raw_data),
+                "value": formatJson(raw_data).length,
+            };
+            console.debug(data);
+            function getPartition(data){
+                const root = d3.hierarchy(data)
+                    .sum(d => d.value)
+                    .sort((a, b) => b.height - a.height || b.value - a.value);
+                return d3.partition()
+                    .size([height, (root.height + 1) * width / 3])
+                    (root);
+            }
+            let color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, data.children.length + 1));
+
+            const root = getPartition(data);
+            console.debug(root);
+            let focus = root;
+
+            const svg = d3.select("#chart")
+                .append("svg")
+                .attr("id", "chart_svg")
+                .attr("viewBox", [0, 0, width, height])
+                .style("width", width)
+                .style("height", height)
+                .style("border", "1px")
+                .style("border-color", "#000000")
+                .style("border-style", "solid")
+                .style("font", "10px sans-serif");
+
+            const cell = svg
+                .selectAll("g")
+                .data(root.descendants())
+                .join("g")
+                .attr("transform", d => `translate(${d.y0},${d.x0})`);
+
+            const rect = cell.append("rect")
+                .attr("width", d => d.y1 - d.y0 - 1)
+                .attr("height", d => rectHeight(d))
+                .attr("fill-opacity", 0.6)
+                .attr("fill", d => {
+                    if (!d.depth) return "#ccc";
+                    while (d.depth > 1) d = d.parent;
+                    return color(d.data.name);
+                })
+                .style("cursor", "pointer")
+                .on("click", clicked);
+
+            const text = cell.append("text")
+                .style("user-select", "none")
+                .attr("pointer-events", "none")
+                .attr("x", 4)
+                .attr("y", 13)
+                .attr("fill-opacity", d => +labelVisible(d));
+
+            text.append("tspan")
+                .text(d => d.data.name);
+
+            const tspan = text.append("tspan")
+                .attr("fill-opacity", d => labelVisible(d) * 0.7)
+                .text(d => ` ${typeof d.children === 'undefined' ? format(d.value) : ""}`);
+
+            cell.append("title")
+                .text(d => `${d.ancestors().map(d => d.data.name).reverse().join("/")}\n${format(d.value)}`);
+
+            function clicked(event, p) {
+                focus = focus === p ? p = p.parent : p;
+
+                root.each(d => d.target = {
+                    x0: (d.x0 - p.x0) / (p.x1 - p.x0) * height,
+                    x1: (d.x1 - p.x0) / (p.x1 - p.x0) * height,
+                    y0: d.y0 - p.y0,
+                    y1: d.y1 - p.y0
+                });
+
+                const t = cell.transition().duration(750)
+                    .attr("transform", d => `translate(${d.target.y0},${d.target.x0})`);
+
+                rect.transition(t).attr("height", d => rectHeight(d.target));
+                text.transition(t).attr("fill-opacity", d => +labelVisible(d.target));
+                tspan.transition(t).attr("fill-opacity", d => labelVisible(d.target) * 0.7);
+            }
+
+            function rectHeight(d) {
+                return d.x1 - d.x0 - Math.min(1, (d.x1 - d.x0) / 2);
+            }
+
+            function labelVisible(d) {
+                return d.y1 <= width && d.y0 >= 0 && d.x1 - d.x0 > 14;
+            }
+        });
+    }
+    </script>
+</body>
+</html>
